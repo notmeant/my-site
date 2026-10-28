@@ -14,7 +14,6 @@
   --border: rgba(150,155,190,.22);
   --text: #f5f5fa;
   --muted: #9699b4;
-  --accent: #5865f2;
 }
 
 * { box-sizing: border-box; }
@@ -38,7 +37,7 @@ body {
   filter: blur(45px) brightness(.32) saturate(.4);
   opacity: .4;
   transform: scale(1.1);
-  transition: background-image .5s ease, opacity .5s ease;
+  transition: opacity .5s ease;
 }
 
 body::before {
@@ -51,7 +50,9 @@ body::before {
   pointer-events: none;
 }
 
+/* Website scaled to 60% of its previous size */
 main {
+  zoom: .6;
   width: min(100% - 40px, 772px);
   margin: 0 auto;
   padding: 100px 0 60px;
@@ -294,7 +295,7 @@ a.card:hover {
   </header>
 
   <section class="card bio">
-    hi im mylo, i like reading manga and coding!
+    hi im mylo, i like reading manga and coding fun stuff
   </section>
 
   <section>
@@ -327,7 +328,7 @@ a.card:hover {
           nothing specific right now
         </div>
         <div id="activity-duration" class="duration">
-          Duration unavailable
+          Not currently active
         </div>
       </div>
     </div>
@@ -341,7 +342,7 @@ a.card:hover {
       <img class="tile-image" src="./dhedits.gif" alt="dhedits">
       <div class="details">
         <div class="card-heading">
-          dhedits <span class="tag">tutorials</span>
+          dhedits <span class="tag">community</span>
         </div>
         <div class="description">editing and vault server</div>
         <div class="invite">↗ discord.gg/dhedits</div>
@@ -354,7 +355,7 @@ a.card:hover {
       <img class="tile-image" src="./curb.jpg" alt="curb">
       <div class="details">
         <div class="card-heading">
-          curb <span class="tag"friendgroup</span>
+          curb <span class="tag">community</span>
         </div>
         <div class="description">my private friendgroup :D</div>
         <div class="invite">↗ discord.gg/curb</div>
@@ -411,10 +412,9 @@ function updateDuration(data) {
     kind = "game";
   }
 
-  // Reset the timer when the current song/game changes.
   if (key !== activityKey) {
     activityKey = key;
-    activityStart = start || Date.now();
+    activityStart = start || (key ? Date.now() : null);
     activityKind = kind;
   } else if (start) {
     activityStart = start;
@@ -451,9 +451,8 @@ async function loadRoblox() {
 
     if (avatarUrl) {
       $("roblox-avatar").src = avatarUrl;
-
-      // Show your Roblox avatar as the main website avatar too.
       $("profile-avatar").src = avatarUrl;
+      $("profile-avatar").dataset.robloxLoaded = "true";
     }
   } catch (error) {
     console.log("Roblox avatar unavailable");
@@ -471,7 +470,6 @@ async function loadDiscord() {
     const data = result.data;
     const user = data.discord_user;
 
-    // Keep the Roblox avatar at the top when available.
     if (user.avatar && !$("profile-avatar").dataset.robloxLoaded) {
       $("profile-avatar").src =
         `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${user.avatar}.png?size=256`;
@@ -505,8 +503,8 @@ async function loadDiscord() {
         activity.details || activity.state || "currently playing";
 
       let imageUrl = "";
-
       const image = activity.assets?.large_image;
+
       if (image?.startsWith("mp:external/")) {
         imageUrl = "https://media.discordapp.net/" + image.slice(3);
       } else if (image && activity.application_id) {
@@ -535,7 +533,6 @@ async function loadDiscord() {
   }
 }
 
-// Update the elapsed timer once per second without repeatedly fetching.
 setInterval(() => {
   if (activityKey && activityStart) {
     const label = activityKind === "song" ? "listening" : "playing";
@@ -544,11 +541,9 @@ setInterval(() => {
   }
 }, 1000);
 
-// Refresh Discord activity and timestamps periodically.
 loadRoblox();
 loadDiscord();
 setInterval(loadDiscord, 15000);
 </script>
-
 </body>
 </html>
