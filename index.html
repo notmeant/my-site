@@ -8,55 +8,58 @@
 
 <style>
 :root {
-  --text: #fff;
-  --muted: #aaa;
-  --border: #252525;
-  --card: #050505;
+  --text: #f3f3f7;
+  --muted: #a0a0ad;
+  --border: rgba(255,255,255,.105);
+  --glass: rgba(28,28,31,.43);
 }
 
 * { box-sizing: border-box; }
-
-html {
-  color-scheme: dark;
-  background: #000;
-}
+html { color-scheme: dark; }
 
 body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
-  background: #000;
+  background: #080809;
   color: var(--text);
   font-family: Inter, "SF Pro Display", -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
-  letter-spacing: -.025em;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.01em;
 }
 
-#backdrop { display: none; }
+#backdrop {
+  position: fixed;
+  inset: -60px;
+  z-index: -2;
+  background-position: center;
+  background-size: cover;
+  filter: blur(55px) brightness(.32) saturate(.4);
+  opacity: .24;
+  transform: scale(1.1);
+  transition: background-image .4s ease;
+}
 
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: #000;
+  background: rgba(5,5,7,.24);
   pointer-events: none;
 }
 
 main {
-  zoom: 0.75;
+  zoom: 0.8;
   width: min(100% - 40px, 772px);
   margin: 0 auto;
   padding: 75px 0 60px;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* PROFILE */
+a { color: inherit; text-decoration: none; }
 
 .profile {
   display: flex;
@@ -67,56 +70,26 @@ a {
 
 .avatar-wrap {
   position: relative;
-  isolation: isolate;
   flex-shrink: 0;
 }
 
-.avatar-wrap::before {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  z-index: -1;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent,
-    #fff 100deg,
-    #777 160deg,
-    transparent 240deg,
-    #fff
-  );
-  opacity: .65;
-  animation: avatarSpin 12s linear infinite;
-}
-
-.avatar-wrap::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: 50%;
-  background: #000;
-}
-
 .avatar {
+  width: 162.5px;
+  height: 162.5px;
   display: block;
-  width: 78px;
-  height: 78px;
   border-radius: 50%;
   object-fit: cover;
-  background: #111;
-  border: 2px solid #000;
-  box-shadow: 0 0 8px rgba(255,255,255,.12);
-  animation: subtleFloat 6s ease-in-out infinite;
+  background: #19191d;
+  border: 1px solid var(--border);
 }
 
 .status-dot {
   position: absolute;
-  right: 1px;
-  bottom: 2px;
-  width: 19px;
-  height: 19px;
-  border: 3px solid #000;
+  right: 3px;
+  bottom: 5px;
+  width: 24px;
+  height: 24px;
+  border: 4px solid #0b0b0d;
   border-radius: 50%;
   background: #747f8d;
 }
@@ -138,11 +111,10 @@ h1 {
   margin-top: 9px;
   color: var(--muted);
   font-size: 18px;
+  letter-spacing: -.025em;
 }
 
 .dot-separator { margin: 0 8px; }
-
-/* CARDS */
 
 .card,
 .roblox-card,
@@ -156,30 +128,60 @@ h1 {
   min-width: 0;
   margin-bottom: 17px;
   padding: 20px;
+  overflow: visible;
   border: 1px solid var(--border);
   border-radius: 23px;
-  background: var(--card);
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 18px rgba(0,0,0,.06);
   transition:
     transform .22s ease,
     border-color .22s ease,
+    background .22s ease,
     box-shadow .22s ease;
+  transform: perspective(900px) rotateX(0deg) rotateY(0deg);
   transform-style: preserve-3d;
   will-change: transform;
+}
+
+.card::before,
+.roblox-card::before,
+.spotify-card::before {
+  content: "";
+  position: absolute;
+  inset: 7px -3px -9px;
+  z-index: -1;
+  border-radius: inherit;
+  background: rgba(255,255,255,.17);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity .22s ease;
+  pointer-events: none;
 }
 
 .card:hover,
 .roblox-card:hover,
 .spotify-card:hover {
-  border-color: #777;
-  box-shadow: 0 12px 35px rgba(255,255,255,.05);
+  background: rgba(65,65,70,.40);
+  border-color: rgba(255,255,255,.20);
+  box-shadow: 0 12px 35px rgba(0,0,0,.12);
+}
+
+.card:hover::before,
+.roblox-card:hover::before,
+.spotify-card:hover::before {
+  opacity: .8;
 }
 
 .bio {
   display: block;
   padding: 27px 30px;
   margin-bottom: 34px;
+  background: rgba(28,28,31,.38);
   font-size: 25px;
   line-height: 1.5;
+  font-weight: 450;
 }
 
 .section-title {
@@ -197,15 +199,12 @@ h1 {
   display: block;
   flex-shrink: 0;
   object-fit: cover;
-  border: 1px solid #252525;
+  border: 1px solid rgba(255,255,255,.10);
   border-radius: 17px;
-  background: #111;
+  background: #151519;
 }
 
-.details {
-  flex: 1;
-  min-width: 0;
-}
+.details { flex: 1; min-width: 0; }
 
 .card-heading {
   display: flex;
@@ -214,32 +213,36 @@ h1 {
   gap: 10px;
   font-size: 23px;
   font-weight: 720;
+  letter-spacing: -.045em;
 }
 
 .tag,
 .roblox-tag {
   padding: 4px 11px;
-  border: 1px solid #252525;
+  border: 1px solid rgba(255,255,255,.10);
   border-radius: 30px;
-  background: #080808;
-  color: #ccc;
+  background: rgba(255,255,255,.035);
+  color: #a8a8b5;
   font-size: 13px;
   font-weight: 500;
+  letter-spacing: .01em;
 }
 
 .description {
   margin-top: 7px;
-  color: #aaa;
+  color: var(--muted);
   font-size: 16px;
   line-height: 1.45;
   overflow-wrap: anywhere;
+  letter-spacing: -.015em;
 }
 
 .invite {
   display: inline-block;
   margin-top: 9px;
-  color: #ccc;
+  color: #c5c5d0;
   font-size: 15px;
+  transition: color .2s ease;
 }
 
 .card:hover .invite { color: #fff; }
@@ -247,12 +250,11 @@ h1 {
 .arrow {
   flex-shrink: 0;
   margin-left: auto;
-  color: #aaa;
+  color: #8f8f9c;
   font-size: 23px;
 }
 
-/* ROBLOX */
-
+/* Roblox profile */
 .roblox-card { padding: 17px 20px; }
 
 .roblox-avatar {
@@ -262,14 +264,11 @@ h1 {
   display: block;
   object-fit: cover;
   border-radius: 17px;
-  background: #111;
-  border: 1px solid #252525;
+  background: #17171b;
+  border: 1px solid rgba(255,255,255,.12);
 }
 
-.roblox-details {
-  flex: 1;
-  min-width: 0;
-}
+.roblox-details { flex: 1; min-width: 0; }
 
 .roblox-heading {
   display: flex;
@@ -278,18 +277,21 @@ h1 {
   gap: 12px;
   font-size: 23px;
   font-weight: 730;
+  letter-spacing: -.045em;
 }
 
 .roblox-username {
   margin-top: 7px;
-  color: #aaa;
+  color: var(--muted);
   font-size: 15px;
   overflow-wrap: anywhere;
 }
 
-/* SPOTIFY AND GAME ACTIVITY */
-
-.spotify-card { padding: 17px; }
+/* Music and game activity */
+.spotify-card {
+  padding: 17px;
+  background: rgba(100,100,105,.30);
+}
 
 .spotify-cover {
   width: 85px;
@@ -298,17 +300,15 @@ h1 {
   display: block;
   object-fit: cover;
   border-radius: 15px;
-  background: #111;
+  background: #19191d;
 }
 
-.spotify-content {
-  flex: 1;
-  min-width: 0;
-}
+.spotify-content { flex: 1; min-width: 0; }
 
 .spotify-title {
   font-size: 22px;
   font-weight: 730;
+  letter-spacing: -.04em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -316,7 +316,7 @@ h1 {
 
 .spotify-artist {
   margin-top: 4px;
-  color: #bbb;
+  color: #b3b3bf;
   font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
@@ -327,7 +327,7 @@ h1 {
   height: 4px;
   margin-top: 15px;
   border-radius: 10px;
-  background: #333;
+  background: rgba(255,255,255,.20);
   overflow: hidden;
 }
 
@@ -335,7 +335,7 @@ h1 {
   width: 0%;
   height: 100%;
   border-radius: inherit;
-  background: #fff;
+  background: #f1f1f4;
   transition: width .5s linear;
 }
 
@@ -344,18 +344,16 @@ h1 {
   justify-content: space-between;
   gap: 10px;
   margin-top: 6px;
-  color: #bbb;
+  color: #bdbdc8;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 
 .duration {
   margin-top: 6px;
-  color: #aaa;
+  color: #a8a8b5;
   font-size: 13px;
 }
-
-/* DISCORD BUTTON */
 
 .discord-button {
   display: flex;
@@ -365,10 +363,9 @@ h1 {
   gap: 12px;
   margin: 28px auto 0;
   padding: 15px 30px;
-  border: 1px solid #fff;
+  border: 1px solid rgba(255,255,255,.10);
   border-radius: 40px;
-  background: #fff;
-  color: #000;
+  background: rgba(88,101,242,.80);
   font-size: 18px;
   font-weight: 700;
   transition: transform .2s ease, background .2s ease;
@@ -376,48 +373,125 @@ h1 {
 
 .discord-button:hover {
   transform: translateY(-3px);
-  background: #ddd;
+  background: rgba(105,116,255,.95);
 }
-
-/* VIEWS COUNTER */
 
 .views {
   position: fixed;
   right: 20px;
   bottom: 20px;
   padding: 9px 15px;
-  border: 1px solid #252525;
+  border: 1px solid var(--border);
   border-radius: 30px;
-  background: #050505;
-  color: #ccc;
+  background: rgba(12,12,15,.55);
+  color: #898997;
   font-size: 12px;
-  z-index: 5;
-  transform: scale(.6);
-  transform-origin: bottom right;
+  backdrop-filter: blur(12px);
 }
 
-/* ANIMATIONS */
+@media (max-width: 600px) {
+  main {
+    width: calc(100% - 28px);
+    padding-top: 45px;
+  }
 
-@keyframes avatarSpin {
-  to { transform: rotate(360deg); }
+  .profile { gap: 17px; }
+  .avatar { width: 112.5px; height: 112.5px; }
+  .greeting { font-size: 19px; }
+  h1 { font-size: 45px; }
+  .username { font-size: 13px; }
+
+  .card,
+  .roblox-card,
+  .spotify-card {
+    gap: 13px;
+    padding: 13px;
+    border-radius: 17px;
+  }
+
+  .bio { padding: 18px; font-size: 20px; }
+
+  .tile-image,
+  .spotify-cover {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+  }
+
+  .roblox-avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 13px;
+  }
+
+  .card-heading,
+  .roblox-heading,
+  .spotify-title { font-size: 17px; }
+
+  .tag,
+  .roblox-tag {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .description,
+  .roblox-username,
+  .spotify-artist { font-size: 12px; }
+
+  .invite { font-size: 12px; }
+  .section-title { font-size: 14px; }
+  .views { right: 8px; bottom: 8px; }
 }
 
-@keyframes subtleFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+  }
 }
 
+/* ===== PURE BLACK & WHITE THEME ===== */
+:root {
+  color-scheme: dark;
+  --text: #fff;
+  --muted: #aaa;
+  --border: rgba(255,255,255,.16);
+  --glass: rgba(5,5,5,.96);
+}
+
+html, body {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+#backdrop { display: none !important; }
+body::before { background: #000 !important; }
+
+.card, .roblox-card, .spotify-card, .bio {
+  background: #050505 !important;
+  color: #fff !important;
+  border-color: #252525 !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.greeting, .username, .section-title, .description, .invite,
+.roblox-username, .spotify-artist, .duration, .spotify-times,
+.tag, .roblox-tag, .arrow, .views {
+  color: #c5c5c5 !important;
+}
+
+.discord-button {
+  background: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+}
+
+.discord-button:hover { background: #ddd !important; }
+
+/* ===== STAGGERED PAGE-LOAD ANIMATIONS ===== */
 @keyframes myloReveal {
-  from {
-    opacity: 0;
-    transform: translateY(22px);
-    filter: blur(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
+  from { opacity: 0; transform: translateY(22px); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
 @keyframes myloFade {
@@ -436,29 +510,12 @@ h1 {
     animation-delay: var(--intro-delay, 0ms);
   }
 
-  body.page-ready main > header {
-    --intro-delay: 0ms;
-  }
-
-  body.page-ready main > section:nth-of-type(1) {
-    --intro-delay: 150ms;
-  }
-
-  body.page-ready main > section:nth-of-type(2) {
-    --intro-delay: 280ms;
-  }
-
-  body.page-ready main > section:nth-of-type(3) {
-    --intro-delay: 410ms;
-  }
-
-  body.page-ready main > section:nth-of-type(4) {
-    --intro-delay: 540ms;
-  }
-
-  body.page-ready main > .discord-button {
-    --intro-delay: 700ms;
-  }
+  body.page-ready main > header { --intro-delay: 0ms; }
+  body.page-ready main > section:nth-of-type(1) { --intro-delay: 150ms; }
+  body.page-ready main > section:nth-of-type(2) { --intro-delay: 280ms; }
+  body.page-ready main > section:nth-of-type(3) { --intro-delay: 410ms; }
+  body.page-ready main > section:nth-of-type(4) { --intro-delay: 540ms; }
+  body.page-ready main > .discord-button { --intro-delay: 700ms; }
 
   body.page-ready main > section:nth-of-type(4) > a.card:nth-of-type(1) {
     animation-delay: 650ms;
@@ -474,88 +531,74 @@ h1 {
   }
 }
 
-/* MOBILE */
+/* ===== ANIMATED PROFILE PICTURE RING ===== */
+.avatar-wrap {
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+}
 
-@media (max-width: 600px) {
-  main {
-    zoom: .6;
-    width: calc(100% - 28px);
-    padding-top: 45px;
-  }
+.avatar-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -8.75px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #fff 70deg,
+    #777 120deg,
+    transparent 180deg,
+    #fff 250deg,
+    transparent 360deg
+  );
+  animation: avatarSpin 3s linear infinite;
+  z-index: -1;
+}
 
-  .profile { gap: 17px; }
+.avatar-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -3.75px;
+  border-radius: 50%;
+  background: #000;
+  z-index: -1;
+}
 
-  .avatar {
-    width: 54px;
-    height: 54px;
-  }
+.avatar {
+  position: relative;
+  border: 2px solid #000 !important;
+  animation:
+    avatarFloat 4s ease-in-out infinite,
+    avatarGlow 2.5s ease-in-out infinite alternate;
+}
 
-  .avatar-wrap::before { inset: -3px; }
+@keyframes avatarSpin {
+  to { transform: rotate(360deg); }
+}
 
-  .status-dot {
-    width: 16px;
-    height: 16px;
-    right: 0;
-    bottom: 0;
-  }
+@keyframes avatarGlow {
+  from { box-shadow: 0 0 7px rgba(255,255,255,.2); }
+  to { box-shadow: 0 0 23px rgba(255,255,255,.7); }
+}
 
-  .greeting { font-size: 19px; }
-  h1 { font-size: 45px; }
-  .username { font-size: 13px; }
+@keyframes avatarFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
 
-  .card,
-  .roblox-card,
-  .spotify-card {
-    gap: 13px;
-    padding: 13px;
-    border-radius: 17px;
-  }
+.tile-image, .roblox-avatar, .spotify-cover {
+  animation: myloImageReveal 1.8s ease both;
+}
 
-  .bio {
-    padding: 18px;
-    font-size: 20px;
-  }
-
-  .tile-image,
-  .spotify-cover {
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
-  }
-
-  .roblox-avatar {
-    width: 58px;
-    height: 58px;
-    border-radius: 13px;
-  }
-
-  .card-heading,
-  .roblox-heading,
-  .spotify-title {
-    font-size: 17px;
-  }
-
-  .tag,
-  .roblox-tag {
-    font-size: 11px;
-    padding: 3px 8px;
-  }
-
-  .description,
-  .roblox-username,
-  .spotify-artist {
-    font-size: 12px;
-  }
-
-  .invite { font-size: 12px; }
-  .section-title { font-size: 14px; }
-  .views { right: 8px; bottom: 8px; }
+@keyframes myloImageReveal {
+  from { opacity: 0; filter: blur(4px); }
+  to { opacity: 1; filter: blur(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
-    transition-duration: .01ms !important;
   }
 
   body:not(.page-ready) main > *,
@@ -567,6 +610,10 @@ h1 {
 </head>
 
 <body>
+<script>
+document.documentElement.classList.add("js");
+</script>
+
 <div id="backdrop"></div>
 
 <main>
@@ -584,7 +631,7 @@ h1 {
       <div class="username">
         @traphouse2018
         <span class="dot-separator">·</span>
-        <span id="status-text">offline</span>
+        <span id="status-text">do not disturb</span>
       </div>
     </div>
   </header>
@@ -599,10 +646,9 @@ h1 {
     <a class="roblox-card"
        href="https://www.roblox.com/users/7928916733/profile"
        target="_blank" rel="noopener">
-
       <img id="roblox-avatar" class="roblox-avatar"
-        src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=7928916733&size=420x420&format=Png&isCircular=false"
-        alt="Roblox avatar">
+           src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=7928916733&size=420x420&format=Png&isCircular=false"
+           alt="Roblox avatar">
 
       <div class="roblox-details">
         <div class="roblox-heading">
@@ -621,24 +667,17 @@ h1 {
 
     <div class="spotify-card" id="activity-card">
       <img id="activity-image" class="spotify-cover"
-        src="./nothing.jpg" alt="Activity artwork">
+           src="./nothing.jpg" alt="Activity artwork">
 
       <div class="spotify-content">
-        <div id="activity-title" class="spotify-title">
-          doing nothing atm
-        </div>
+        <div id="activity-title" class="spotify-title">doing nothing atm</div>
+        <div id="activity-description" class="spotify-artist">chilling</div>
 
-        <div id="activity-description" class="spotify-artist">
-          chilling
-        </div>
-
-        <div id="spotify-progress" class="spotify-progress"
-             style="display:none">
+        <div id="spotify-progress" class="spotify-progress">
           <div id="spotify-progress-fill"></div>
         </div>
 
-        <div id="spotify-times" class="spotify-times"
-             style="display:none">
+        <div id="spotify-times" class="spotify-times">
           <span id="spotify-elapsed">0:00</span>
           <span id="spotify-total">0:00</span>
         </div>
@@ -653,9 +692,7 @@ h1 {
 
     <a class="card" href="https://discord.gg/dhedits"
        target="_blank" rel="noopener">
-
       <img class="tile-image" src="./dhedits.gif" alt="dhedits">
-
       <div class="details">
         <div class="card-heading">
           dhedits <span class="tag">tutorials</span>
@@ -663,15 +700,12 @@ h1 {
         <div class="description">editing and vault server</div>
         <div class="invite">↗ discord.gg/dhedits</div>
       </div>
-
       <span class="arrow">↗</span>
     </a>
 
     <a class="card" href="https://discord.gg/curb"
        target="_blank" rel="noopener">
-
       <img class="tile-image" src="./curb.jpg" alt="curb">
-
       <div class="details">
         <div class="card-heading">
           curb <span class="tag">friendgroup</span>
@@ -679,7 +713,6 @@ h1 {
         <div class="description">my private friendgroup :D</div>
         <div class="invite">↗ discord.gg/curb</div>
       </div>
-
       <span class="arrow">↗</span>
     </a>
   </section>
@@ -691,23 +724,16 @@ h1 {
   </a>
 </main>
 
-<div class="views" id="view-count" aria-live="polite">
-  Loading views...
-</div>
+<div class="views" id="view-count" aria-live="polite">Loading views...</div>
 
 <script>
-/* VIEWS COUNTER */
 (() => {
-  const COUNTER_ENDPOINT =
-    "https://mylo-views-counter.roxxhn.workers.dev";
-
+  // After deploying worker.js, replace this with your Cloudflare Worker URL.
+  const COUNTER_ENDPOINT = "https://mylo-views-counter.roxxhn.workers.dev";
   const STARTING_COUNT = 784;
   const display = document.getElementById("view-count");
 
-  fetch(COUNTER_ENDPOINT, {
-    method: "GET",
-    cache: "no-store"
-  })
+  fetch(COUNTER_ENDPOINT, { method: "GET", cache: "no-store" })
     .then(response => {
       if (!response.ok) {
         throw new Error(`Counter request failed (${response.status})`);
@@ -718,8 +744,7 @@ h1 {
       if (!Number.isFinite(Number(data.count))) {
         throw new Error("Invalid counter response");
       }
-      display.textContent =
-        `${STARTING_COUNT + Number(data.count)} views`;
+      display.textContent = `${STARTING_COUNT + Number(data.count)} views`;
     })
     .catch(error => {
       console.error("Views counter failed:", error);
@@ -729,8 +754,6 @@ h1 {
 </script>
 
 <script>
-/* DISCORD, ROBLOX, SPOTIFY AND GAME ACTIVITY */
-
 const DISCORD_ID = "664872662501425165";
 const ROBLOX_ID = "7928916733";
 const $ = id => document.getElementById(id);
@@ -744,9 +767,7 @@ let lastArtwork = "";
 
 function formatTime(ms) {
   const seconds = Math.max(0, Math.floor(ms / 1000));
-  return `${Math.floor(seconds / 60)}:${String(
-    seconds % 60
-  ).padStart(2, "0")}`;
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
 function setBackdrop(url) {
@@ -757,24 +778,19 @@ function setBackdrop(url) {
 
 async function loadRobloxAvatar() {
   const avatar = $("roblox-avatar");
-
   const endpoint =
     `https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=420x420&format=Png&isCircular=false&thumbnailType=HeadShot`;
 
   try {
-    const response = await fetch(endpoint, {
-      cache: "no-store"
-    });
-
+    const response = await fetch(endpoint, { cache: "no-store" });
     if (!response.ok) {
       throw new Error(`Roblox thumbnail HTTP ${response.status}`);
     }
 
     const json = await response.json();
-
-    const entry =
-      json.data?.find(item => item.targetId === Number(ROBLOX_ID))
-      || json.data?.[0];
+    const entry = json.data?.find(
+      item => item.targetId === Number(ROBLOX_ID)
+    ) || json.data?.[0];
 
     if (entry?.imageUrl && entry.state === "Completed") {
       avatar.src = entry.imageUrl;
@@ -783,7 +799,7 @@ async function loadRobloxAvatar() {
 
     throw new Error("Roblox avatar thumbnail isn't ready");
   } catch (error) {
-    console.error("Couldn't load Roblox avatar:", error);
+    console.error("Couldn't load Roblox avatar thumbnail:", error);
     avatar.alt = "Roblox avatar unavailable";
   }
 }
@@ -791,11 +807,7 @@ async function loadRobloxAvatar() {
 function updateProgress() {
   if (currentKind === "spotify" && songStart && songEnd) {
     const total = songEnd - songStart;
-    const elapsed = Math.max(
-      0,
-      Math.min(Date.now() - songStart, total)
-    );
-
+    const elapsed = Math.max(0, Math.min(Date.now() - songStart, total));
     const percent = total > 0 ? elapsed / total * 100 : 0;
 
     $("spotify-progress").style.display = "block";
@@ -803,9 +815,7 @@ function updateProgress() {
     $("spotify-progress-fill").style.width = `${percent}%`;
     $("spotify-elapsed").textContent = formatTime(elapsed);
     $("spotify-total").textContent = formatTime(total);
-    $("activity-duration").textContent =
-      `${formatTime(elapsed)} elapsed`;
-
+    $("activity-duration").textContent = `${formatTime(elapsed)} elapsed`;
   } else if (currentKind === "game" && gameStart) {
     $("spotify-progress").style.display = "none";
     $("spotify-times").style.display = "none";
@@ -825,7 +835,6 @@ function showIdle() {
   $("activity-description").textContent = "chilling";
   $("activity-duration").textContent = "";
   $("activity-image").src = "./nothing.jpg";
-
   $("spotify-progress").style.display = "none";
   $("spotify-times").style.display = "none";
   $("spotify-progress-fill").style.width = "0%";
@@ -833,10 +842,7 @@ function showIdle() {
 
 function updateActivity(data) {
   const spotify = data.listening_to_spotify ? data.spotify : null;
-
-  const game = (data.activities || []).find(
-    activity => activity.type !== 4
-  );
+  const game = (data.activities || []).find(a => a.type !== 4);
 
   if (spotify) {
     const key = `spotify:${spotify.track_id || spotify.song}`;
@@ -851,14 +857,9 @@ function updateActivity(data) {
       songEnd = spotify.timestamps?.end || songEnd;
     }
 
-    $("activity-title").textContent =
-      spotify.song || "Unknown song";
-
-    $("activity-description").textContent =
-      spotify.artist || "Unknown artist";
-
-    $("activity-image").src =
-      spotify.album_art_url || "./nothing.jpg";
+    $("activity-title").textContent = spotify.song || "Unknown song";
+    $("activity-description").textContent = spotify.artist || "Unknown artist";
+    $("activity-image").src = spotify.album_art_url || "./nothing.jpg";
 
     setBackdrop(spotify.album_art_url);
     updateProgress();
@@ -876,9 +877,7 @@ function updateActivity(data) {
       gameStart = game.timestamps.start;
     }
 
-    $("activity-title").textContent =
-      game.name || "Playing a game";
-
+    $("activity-title").textContent = game.name || "Playing a game";
     $("activity-description").textContent =
       game.details || game.state || "playing";
 
@@ -893,9 +892,7 @@ function updateActivity(data) {
     }
 
     $("activity-image").src = artwork || "./nothing.jpg";
-
     if (artwork) setBackdrop(artwork);
-
     updateProgress();
     return;
   }
@@ -910,19 +907,14 @@ async function loadDiscord() {
     );
 
     const result = await response.json();
-
-    if (!result.success) {
-      throw new Error("Lanyard request failed");
-    }
+    if (!result.success) throw new Error("Lanyard request failed");
 
     const data = result.data;
     const user = data.discord_user;
 
+    // Always use your Discord avatar for the main profile image.
     if (user.avatar) {
-      const extension = user.avatar.startsWith("a_")
-        ? "gif"
-        : "png";
-
+      const extension = user.avatar.startsWith("a_") ? "gif" : "png";
       $("profile-avatar").src =
         `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${user.avatar}.${extension}?size=256`;
     } else {
@@ -931,7 +923,6 @@ async function loadDiscord() {
     }
 
     const status = data.discord_status || "offline";
-
     $("status-text").textContent =
       status === "dnd" ? "do not disturb" : status;
 
@@ -942,26 +933,20 @@ async function loadDiscord() {
       offline: "#747f8d"
     };
 
-    $("status-dot").style.background =
-      colors[status] || colors.offline;
-
+    $("status-dot").style.background = colors[status] || colors.offline;
     updateActivity(data);
-
   } catch (error) {
     console.error("Could not load Discord profile/activity:", error);
     showIdle();
   }
 }
 
-/* HOVER TILT */
-document.querySelectorAll(
-  ".card, .roblox-card, .spotify-card"
-).forEach(card => {
+// Hover tilt: 30% stronger than the previous 2.4-degree setting.
+document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => {
   card.addEventListener("mousemove", event => {
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
-
     const rotateY = (x - .5) * 3.12;
     const rotateX = (.5 - y) * 3.12;
 
@@ -975,7 +960,6 @@ document.querySelectorAll(
   });
 });
 
-/* IMAGE FALLBACKS */
 $("profile-avatar").addEventListener("error", () => {
   $("profile-avatar").src =
     "https://cdn.discordapp.com/embed/avatars/0.png";
@@ -987,29 +971,22 @@ $("activity-image").addEventListener("error", () => {
   }
 });
 
-/* START */
 loadRobloxAvatar();
 loadDiscord();
-
 setInterval(loadDiscord, 15000);
 setInterval(updateProgress, 1000);
 </script>
 
 <script>
 (() => {
-  const ready = () => {
-    document.body.classList.add("page-ready");
-  };
+  const ready = () => document.body.classList.add("page-ready");
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", ready, {
-      once: true
-    });
+    document.addEventListener("DOMContentLoaded", ready, { once: true });
   } else {
     ready();
   }
 })();
 </script>
-
 </body>
 </html>
