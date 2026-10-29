@@ -615,7 +615,8 @@ function updateProgress() {
     $("spotify-progress-fill").style.width = `${percent}%`;
     $("spotify-elapsed").textContent = formatTime(elapsed);
     $("spotify-total").textContent = formatTime(total);
-    $("activity-duration").textContent = `${formatTime(elapsed)} elapsed`;
+    $("activity-duration").textContent =
+      `${formatTime(elapsed)} elapsed`;
   } else if (currentKind === "game" && gameStart) {
     $("spotify-progress").style.display = "none";
     $("spotify-times").style.display = "none";
@@ -747,8 +748,8 @@ document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => 
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
-    const rotateY = (x - .5) * 3.744;
-    const rotateX = (.5 - y) * 3.744;
+    const rotateY = (x - .5) * 5;
+    const rotateX = (.5 - y) * 5;
 
     card.style.transform =
       `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
