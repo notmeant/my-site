@@ -34,18 +34,18 @@ body {
 
 /* Dynamic artwork background */
 #backdrop {
-  display: block !important;
   position: fixed;
-  inset: -60px;
+  inset: -100px;
   z-index: -2;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  filter: blur(55px) brightness(.33) saturate(.1);
-  opacity: .48;
-  transform: scale(1.1);
-  transition: background-image .5s ease;
+  filter: blur(85px) brightness(.25) saturate(.65);
+  opacity: .55;
+  transform: scale(1.15);
+  transition: background-image 1.2s ease, opacity 1.2s ease;
   pointer-events: none;
+  will-change: background-image;
 }
 
 body::before {
