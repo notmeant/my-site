@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -479,7 +478,7 @@ h1 {
        href="https://www.roblox.com/users/7928916733/profile"
        target="_blank" rel="noopener">
       <img id="roblox-avatar" class="roblox-avatar"
-           src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-1E14173E94117747368B9AD08789B743-Png/420/420/AvatarHeadshot/Png/noFilter"
+           src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=7928916733&size=420x420&format=Png&isCircular=false"
            alt="Roblox avatar">
 
       <div class="roblox-details">
@@ -581,7 +580,25 @@ function setBackdrop(url) {
   $("backdrop").style.backgroundImage = `url("${url}")`;
 }
 
-function loadRobloxAvatar() {
+async function loadRobloxAvatar() {
+  const endpoint =
+    `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=420x420&format=Png&isCircular=false`;
+
+  try {
+    const response = await fetch(endpoint, { cache: "no-store" });
+    if (!response.ok) throw new Error(`Roblox HTTP ${response.status}`);
+
+    const json = await response.json();
+    const entry = json.data?.[0];
+
+    if (entry?.imageUrl && entry.state === "Completed") {
+      $("roblox-avatar").src = entry.imageUrl;
+      return;
+    }
+  } catch (error) {
+    console.warn("Roblox thumbnail API failed; trying direct thumbnail URL.", error);
+  }
+
   $("roblox-avatar").src =
     "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-1E14173E94117747368B9AD08789B743-Png/420/420/AvatarHeadshot/Png/noFilter";
 }
