@@ -41,7 +41,7 @@ body {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  filter: blur(55px) brightness(.40) saturate(.45);
+  filter: blur(55px) brightness(.25) saturate(.1);
   opacity: .48;
   transform: scale(1.1);
   transition: background-image .5s ease;
@@ -698,7 +698,7 @@ document.documentElement.classList.add("js");
 <script>
 (() => {
   const COUNTER_ENDPOINT = "https://mylo-views-counter.roxxhn.workers.dev";
-  const STARTING_COUNT = 524;
+  const STARTING_COUNT = 435;
   const display = document.getElementById("view-count");
 
   fetch(COUNTER_ENDPOINT, { method: "GET", cache: "no-store" })
