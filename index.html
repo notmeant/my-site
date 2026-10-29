@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +9,10 @@
 
 <style>
 :root {
-  --text: #f3f3f7;
-  --muted: #a0a0ad;
-  --border: rgba(255,255,255,.105);
-  --glass: rgba(28,28,31,.43);
+  --text: #fff;
+  --muted: #aaa;
+  --border: rgba(255,255,255,.16);
+  --glass: rgba(5,5,5,.62);
 }
 
 * { box-sizing: border-box; }
@@ -21,26 +22,30 @@ body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
-  background: #080809;
+  background: #000;
   color: var(--text);
   font-family: Inter, "SF Pro Display", -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  letter-spacing: -0.01em;
+  letter-spacing: -.01em;
 }
 
+/* Dynamic artwork background */
 #backdrop {
+  display: block !important;
   position: fixed;
   inset: -60px;
   z-index: -2;
   background-position: center;
   background-size: cover;
-  filter: blur(55px) brightness(.95) saturate(.14);
-  opacity: .24;
+  background-repeat: no-repeat;
+  filter: blur(55px) brightness(.60) saturate(.70);
+  opacity: .48;
   transform: scale(1.1);
-  transition: background-image .4s ease;
+  transition: background-image .5s ease;
+  pointer-events: none;
 }
 
 body::before {
@@ -48,12 +53,12 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: rgba(5,5,7,.24);
+  background: rgba(0,0,0,.35);
   pointer-events: none;
 }
 
 main {
-  zoom: 0.77;
+  zoom: .77;
   width: min(100% - 40px, 772px);
   margin: 0 auto;
   padding: 75px 0 60px;
@@ -131,7 +136,7 @@ h1 {
   overflow: visible;
   border: 1px solid var(--border);
   border-radius: 23px;
-  background: var(--glass);
+  background: rgba(8,8,10,.58);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 4px 18px rgba(0,0,0,.06);
@@ -163,7 +168,7 @@ h1 {
 .card:hover,
 .roblox-card:hover,
 .spotify-card:hover {
-  background: rgba(65,65,70,.40);
+  background: rgba(40,40,45,.72);
   border-color: rgba(255,255,255,.20);
   box-shadow: 0 12px 35px rgba(0,0,0,.12);
 }
@@ -178,7 +183,7 @@ h1 {
   display: block;
   padding: 27px 30px;
   margin-bottom: 34px;
-  background: rgba(28,28,31,.38);
+  background: rgba(8,8,10,.58);
   font-size: 25px;
   line-height: 1.5;
   font-weight: 450;
@@ -222,7 +227,7 @@ h1 {
   border: 1px solid rgba(255,255,255,.10);
   border-radius: 30px;
   background: rgba(255,255,255,.035);
-  color: #a8a8b5;
+  color: #c5c5c5;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: .01em;
@@ -288,10 +293,7 @@ h1 {
 }
 
 /* Music and game activity */
-.spotify-card {
-  padding: 17px;
-  background: rgba(100,100,105,.30);
-}
+.spotify-card { padding: 17px; }
 
 .spotify-cover {
   width: 85px;
@@ -316,7 +318,7 @@ h1 {
 
 .spotify-artist {
   margin-top: 4px;
-  color: #b3b3bf;
+  color: #c5c5c5;
   font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
@@ -344,14 +346,14 @@ h1 {
   justify-content: space-between;
   gap: 10px;
   margin-top: 6px;
-  color: #bdbdc8;
+  color: #c5c5c5;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 
 .duration {
   margin-top: 6px;
-  color: #a8a8b5;
+  color: #c5c5c5;
   font-size: 13px;
 }
 
@@ -363,9 +365,10 @@ h1 {
   gap: 12px;
   margin: 28px auto 0;
   padding: 15px 30px;
-  border: 1px solid rgba(255,255,255,.10);
+  border: 1px solid #fff;
   border-radius: 40px;
-  background: rgba(88,101,242,.80);
+  background: #fff;
+  color: #000;
   font-size: 18px;
   font-weight: 700;
   transition: transform .2s ease, background .2s ease;
@@ -373,7 +376,7 @@ h1 {
 
 .discord-button:hover {
   transform: translateY(-3px);
-  background: rgba(105,116,255,.95);
+  background: #ddd;
 }
 
 .views {
@@ -383,8 +386,8 @@ h1 {
   padding: 9px 15px;
   border: 1px solid var(--border);
   border-radius: 30px;
-  background: rgba(12,12,15,.55);
-  color: #898997;
+  background: rgba(12,12,15,.7);
+  color: #c5c5c5;
   font-size: 12px;
   backdrop-filter: blur(12px);
 }
@@ -443,55 +446,18 @@ h1 {
   .views { right: 8px; bottom: 8px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: .01ms !important;
-  }
-}
-
-/* ===== PURE BLACK & WHITE THEME ===== */
-:root {
-  color-scheme: dark;
-  --text: #fff;
-  --muted: #aaa;
-  --border: rgba(255,255,255,.16);
-  --glass: rgba(5,5,5,.96);
-}
-
-html, body {
-  background: #000 !important;
-  color: #fff !important;
-}
-
-#backdrop { display: none !important; }
-body::before { background: #000 !important; }
-
-.card, .roblox-card, .spotify-card, .bio {
-  background: #050505 !important;
-  color: #fff !important;
-  border-color: #252525 !important;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.greeting, .username, .section-title, .description, .invite,
-.roblox-username, .spotify-artist, .duration, .spotify-times,
-.tag, .roblox-tag, .arrow, .views {
-  color: #c5c5c5 !important;
-}
-
-.discord-button {
-  background: #fff !important;
-  color: #000 !important;
-  border-color: #fff !important;
-}
-
-.discord-button:hover { background: #ddd !important; }
-
-/* ===== STAGGERED PAGE-LOAD ANIMATIONS ===== */
+/* Page-load animations */
 @keyframes myloReveal {
-  from { opacity: 0; transform: translateY(22px); filter: blur(5px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 @keyframes myloFade {
@@ -531,7 +497,7 @@ body::before { background: #000 !important; }
   }
 }
 
-/* ===== ANIMATED PROFILE PICTURE RING ===== */
+/* Animated profile picture ring */
 .avatar-wrap {
   position: relative;
   isolation: isolate;
@@ -587,7 +553,9 @@ body::before { background: #000 !important; }
   50% { translate: 0 -4px; }
 }
 
-.tile-image, .roblox-avatar, .spotify-cover {
+.tile-image,
+.roblox-avatar,
+.spotify-cover {
   animation: myloImageReveal 1.8s ease both;
 }
 
@@ -599,6 +567,7 @@ body::before { background: #000 !important; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
+    transition-duration: .01ms !important;
   }
 
   body:not(.page-ready) main > *,
@@ -728,7 +697,6 @@ document.documentElement.classList.add("js");
 
 <script>
 (() => {
-  // After deploying worker.js, replace this with your Cloudflare Worker URL.
   const COUNTER_ENDPOINT = "https://mylo-views-counter.roxxhn.workers.dev";
   const STARTING_COUNT = 784;
   const display = document.getElementById("view-count");
@@ -838,6 +806,10 @@ function showIdle() {
   $("spotify-progress").style.display = "none";
   $("spotify-times").style.display = "none";
   $("spotify-progress-fill").style.width = "0%";
+
+  // Clear old artwork when no activity is available.
+  lastArtwork = "";
+  $("backdrop").style.backgroundImage = "none";
 }
 
 function updateActivity(data) {
@@ -861,7 +833,10 @@ function updateActivity(data) {
     $("activity-description").textContent = spotify.artist || "Unknown artist";
     $("activity-image").src = spotify.album_art_url || "./nothing.jpg";
 
-    setBackdrop(spotify.album_art_url);
+    if (spotify.album_art_url) {
+      setBackdrop(spotify.album_art_url);
+    }
+
     updateProgress();
     return;
   }
@@ -892,7 +867,14 @@ function updateActivity(data) {
     }
 
     $("activity-image").src = artwork || "./nothing.jpg";
-    if (artwork) setBackdrop(artwork);
+
+    if (artwork) {
+      setBackdrop(artwork);
+    } else {
+      lastArtwork = "";
+      $("backdrop").style.backgroundImage = "none";
+    }
+
     updateProgress();
     return;
   }
@@ -906,13 +888,16 @@ async function loadDiscord() {
       `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
     );
 
+    if (!response.ok) {
+      throw new Error(`Lanyard HTTP ${response.status}`);
+    }
+
     const result = await response.json();
     if (!result.success) throw new Error("Lanyard request failed");
 
     const data = result.data;
     const user = data.discord_user;
 
-    // Always use your Discord avatar for the main profile image.
     if (user.avatar) {
       const extension = user.avatar.startsWith("a_") ? "gif" : "png";
       $("profile-avatar").src =
@@ -941,7 +926,7 @@ async function loadDiscord() {
   }
 }
 
-// Hover tilt: 30% stronger than the previous 2.4-degree setting.
+/* Hover tilt */
 document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => {
   card.addEventListener("mousemove", event => {
     const rect = card.getBoundingClientRect();
