@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -556,7 +555,15 @@ h1 {
   </a>
 </main>
 
-<div class="views">views unavailable</div>
+<!-- Visitor counter, starting at 784 -->
+<div class="views counterapi"
+     startNumber="784"
+     label="views"
+     noIcon="true"
+     noCss="true"
+     noLink="true"></div>
+
+<script src="https://counterapi.com/c.js?ns=mylo-profile" async></script>
 
 <script>
 const DISCORD_ID = "664872662501425165";
@@ -601,7 +608,7 @@ async function loadRobloxAvatar() {
   }
 
   $("roblox-avatar").src =
-    "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-1E14173E94117747368B9AD08789B743-Png/420/420/AvatarHeadshot/Png/noFilter";
+    `https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=420&height=420&format=png`;
 }
 
 function updateProgress() {
@@ -615,8 +622,7 @@ function updateProgress() {
     $("spotify-progress-fill").style.width = `${percent}%`;
     $("spotify-elapsed").textContent = formatTime(elapsed);
     $("spotify-total").textContent = formatTime(total);
-    $("activity-duration").textContent =
-      `${formatTime(elapsed)} elapsed`;
+    $("activity-duration").textContent = `${formatTime(elapsed)} elapsed`;
   } else if (currentKind === "game" && gameStart) {
     $("spotify-progress").style.display = "none";
     $("spotify-times").style.display = "none";
@@ -742,14 +748,14 @@ async function loadDiscord() {
   }
 }
 
-// Hover tilt: 30% stronger than the previous 2.4-degree setting.
+// Hover tilt
 document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => {
   card.addEventListener("mousemove", event => {
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
-    const rotateY = (x - .5) * 5;
-    const rotateX = (.5 - y) * 5;
+    const rotateY = (x - .5) * 6;
+    const rotateX = (.5 - y) * 6;
 
     card.style.transform =
       `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
