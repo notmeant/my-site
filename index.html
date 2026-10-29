@@ -16,7 +16,6 @@
 }
 
 * { box-sizing: border-box; }
-
 html { color-scheme: dark; }
 
 body {
@@ -41,7 +40,6 @@ body {
   filter: blur(55px) brightness(.32) saturate(.4);
   opacity: .24;
   transform: scale(1.1);
-  transition: background-image .4s ease;
 }
 
 body::before {
@@ -54,16 +52,13 @@ body::before {
 }
 
 main {
-  zoom: .66;
+  zoom: .792;
   width: min(100% - 40px, 772px);
   margin: 0 auto;
   padding: 75px 0 60px;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
 .profile {
   display: flex;
@@ -72,10 +67,7 @@ a {
   margin-bottom: 30px;
 }
 
-.avatar-wrap {
-  position: relative;
-  flex-shrink: 0;
-}
+.avatar-wrap { position: relative; flex-shrink: 0; }
 
 .avatar {
   width: 130px;
@@ -98,10 +90,7 @@ a {
   background: #747f8d;
 }
 
-.greeting {
-  color: var(--muted);
-  font-size: 24px;
-}
+.greeting { color: var(--muted); font-size: 24px; }
 
 h1 {
   margin: 0;
@@ -139,11 +128,8 @@ h1 {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 4px 18px rgba(0,0,0,.06);
-  transition:
-    transform .22s ease,
-    border-color .22s ease,
-    background .22s ease,
-    box-shadow .22s ease;
+  transition: transform .22s ease, border-color .22s ease,
+    background .22s ease, box-shadow .22s ease;
   transform: perspective(900px) rotateX(0deg) rotateY(0deg);
   transform-style: preserve-3d;
   will-change: transform;
@@ -174,9 +160,7 @@ h1 {
 
 .card:hover::before,
 .roblox-card:hover::before,
-.spotify-card:hover::before {
-  opacity: .8;
-}
+.spotify-card:hover::before { opacity: .8; }
 
 .bio {
   display: block;
@@ -208,10 +192,7 @@ h1 {
   background: #151519;
 }
 
-.details {
-  flex: 1;
-  min-width: 0;
-}
+.details { flex: 1; min-width: 0; }
 
 .card-heading {
   display: flex;
@@ -223,8 +204,7 @@ h1 {
   letter-spacing: -.045em;
 }
 
-.tag,
-.roblox-tag {
+.tag, .roblox-tag {
   padding: 4px 11px;
   border: 1px solid rgba(255,255,255,.10);
   border-radius: 30px;
@@ -294,7 +274,7 @@ h1 {
   overflow-wrap: anywhere;
 }
 
-/* Spotify player */
+/* Right now player */
 .spotify-card {
   padding: 17px;
   background: rgba(100,100,105,.30);
@@ -408,21 +388,15 @@ h1 {
   h1 { font-size: 45px; }
   .username { font-size: 13px; }
 
-  .card,
-  .roblox-card,
-  .spotify-card {
+  .card, .roblox-card, .spotify-card {
     gap: 13px;
     padding: 13px;
     border-radius: 17px;
   }
 
-  .bio {
-    padding: 18px;
-    font-size: 20px;
-  }
+  .bio { padding: 18px; font-size: 20px; }
 
-  .tile-image,
-  .spotify-cover {
+  .tile-image, .spotify-cover {
     width: 60px;
     height: 60px;
     border-radius: 12px;
@@ -434,29 +408,21 @@ h1 {
     border-radius: 13px;
   }
 
-  .card-heading,
-  .roblox-heading,
-  .spotify-title { font-size: 17px; }
+  .card-heading, .roblox-heading, .spotify-title { font-size: 17px; }
 
-  .tag,
-  .roblox-tag {
+  .tag, .roblox-tag {
     font-size: 11px;
     padding: 3px 8px;
   }
 
-  .description,
-  .roblox-username,
-  .spotify-artist { font-size: 12px; }
-
+  .description, .roblox-username, .spotify-artist { font-size: 12px; }
   .invite { font-size: 12px; }
   .section-title { font-size: 14px; }
   .views { right: 8px; bottom: 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: .01ms !important;
-  }
+  *, *::before, *::after { transition-duration: .01ms !important; }
 }
 </style>
 </head>
@@ -477,8 +443,7 @@ h1 {
       <div class="greeting">hey, i'm</div>
       <h1>mylo</h1>
       <div class="username">
-        @traphouse2018
-        <span class="dot-separator">·</span>
+        @traphouse2018 <span class="dot-separator">·</span>
         <span id="status-text">do not disturb</span>
       </div>
     </div>
@@ -496,12 +461,11 @@ h1 {
        target="_blank" rel="noopener">
       <img id="roblox-avatar" class="roblox-avatar"
            src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=7928916733&size=150x150&format=Png&isCircular=false"
-           alt="Roblox avatar"
-           referrerpolicy="no-referrer">
+           alt="Roblox avatar">
 
       <div class="roblox-details">
         <div class="roblox-heading">
-          <span>mylo</span>
+          <span id="roblox-name">mylo</span>
           <span class="roblox-tag">roblox</span>
         </div>
         <div class="roblox-username">@mylo · @7928916733</div>
@@ -516,8 +480,7 @@ h1 {
 
     <div class="spotify-card" id="activity-card">
       <img id="activity-image" class="spotify-cover"
-           src="https://cdn.discordapp.com/embed/avatars/0.png"
-           alt="Activity artwork">
+           src="./nothing.jpg" alt="Activity artwork">
 
       <div class="spotify-content">
         <div id="activity-title" class="spotify-title">doing nothing atm</div>
@@ -603,42 +566,39 @@ function setRobloxAvatar(url) {
   if (!url) return;
   $("roblox-avatar").src = url;
   $("profile-avatar").src = url;
-  $("profile-avatar").dataset.robloxLoaded = "true";
 }
 
 async function loadRobloxAvatar() {
   const endpoint =
-    `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=150x150&format=Png&isCircular=false`;
+    `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=420x420&format=Png&isCircular=false`;
 
+  // Use Roblox's JSON API to get the actual thumbnail URL.
   try {
     const response = await fetch(endpoint, { cache: "no-store" });
-    if (!response.ok) throw new Error("Thumbnail API failed");
+    if (!response.ok) throw new Error(`Roblox HTTP ${response.status}`);
 
     const json = await response.json();
-    const url = json.data?.[0]?.imageUrl;
-    if (url) {
-      setRobloxAvatar(url);
+    const entry = json.data?.[0];
+
+    if (entry?.imageUrl && entry.state === "Completed") {
+      setRobloxAvatar(entry.imageUrl);
       return;
     }
   } catch (error) {
-    console.warn("Roblox thumbnail request failed:", error);
+    console.error("Roblox avatar API request failed:", error);
   }
 
-  try {
-    const response = await fetch(endpoint);
-    const json = await response.json();
-    const url = json.data?.[0]?.imageUrl;
-    if (url) {
-      setRobloxAvatar(url);
-      return;
-    }
-  } catch (error) {
-    console.warn("Roblox avatar retry failed:", error);
-  }
+  // Direct image fallback in case the API fetch is blocked.
+  const directUrl =
+    `https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=420&height=420&format=png`;
 
-  $("roblox-avatar").alt = "Roblox avatar unavailable";
-  console.error("Roblox did not return an avatar. Check the user ID and network.");
+  $("roblox-avatar").src = directUrl;
+  $("profile-avatar").src = directUrl;
 }
+
+$("roblox-avatar").addEventListener("error", () => {
+  console.error("Roblox avatar image failed to load. Check Roblox ID/network.");
+});
 
 function updateProgress() {
   if (currentKind === "spotify" && songStart && songEnd) {
@@ -670,8 +630,7 @@ function showIdle() {
   $("activity-title").textContent = "doing nothing atm";
   $("activity-description").textContent = "chilling";
   $("activity-duration").textContent = "";
-  $("activity-image").src =
-    "https://cdn.discordapp.com/embed/avatars/0.png";
+  $("activity-image").src = "./nothing.jpg";
   $("spotify-progress").style.display = "none";
   $("spotify-times").style.display = "none";
   $("spotify-progress-fill").style.width = "0%";
@@ -696,8 +655,7 @@ function updateActivity(data) {
 
     $("activity-title").textContent = spotify.song || "Unknown song";
     $("activity-description").textContent = spotify.artist || "Unknown artist";
-    $("activity-image").src = spotify.album_art_url ||
-      "https://cdn.discordapp.com/embed/avatars/0.png";
+    $("activity-image").src = spotify.album_art_url || "./nothing.jpg";
 
     setBackdrop(spotify.album_art_url);
     updateProgress();
@@ -729,14 +687,8 @@ function updateActivity(data) {
         `https://cdn.discordapp.com/app-assets/${game.application_id}/${image}.png`;
     }
 
-    if (artwork) {
-      $("activity-image").src = artwork;
-      setBackdrop(artwork);
-    } else {
-      $("activity-image").src =
-        "https://cdn.discordapp.com/embed/avatars/0.png";
-    }
-
+    $("activity-image").src = artwork || "./nothing.jpg";
+    if (artwork) setBackdrop(artwork);
     updateProgress();
     return;
   }
@@ -755,11 +707,7 @@ async function loadDiscord() {
     const data = result.data;
     const user = data.discord_user;
 
-    if (user.avatar && !$("profile-avatar").dataset.robloxLoaded) {
-      $("profile-avatar").src =
-        `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${user.avatar}.png?size=256`;
-    }
-
+    // Use Roblox avatar for the main profile too, if it loaded.
     const status = data.discord_status || "offline";
     $("status-text").textContent =
       status === "dnd" ? "do not disturb" : status;
