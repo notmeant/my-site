@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,11 +129,8 @@ h1 {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 4px 18px rgba(0,0,0,.06);
-  transition:
-    transform .22s ease,
-    border-color .22s ease,
-    background .22s ease,
-    box-shadow .22s ease;
+  transition: transform .22s ease, border-color .22s ease,
+    background .22s ease, box-shadow .22s ease;
   transform: perspective(900px) rotateX(0deg) rotateY(0deg);
   transform-style: preserve-3d;
   will-change: transform;
@@ -247,7 +245,6 @@ h1 {
   font-size: 23px;
 }
 
-/* Roblox profile */
 .roblox-card { padding: 17px 20px; }
 
 .roblox-avatar {
@@ -280,7 +277,6 @@ h1 {
   overflow-wrap: anywhere;
 }
 
-/* Music and game activity */
 .spotify-card {
   padding: 17px;
   background: rgba(100,100,105,.30);
@@ -478,8 +474,8 @@ h1 {
        href="https://www.roblox.com/users/7928916733/profile"
        target="_blank" rel="noopener">
       <img id="roblox-avatar" class="roblox-avatar"
-           src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=7928916733&size=420x420&format=Png&isCircular=false"
-           alt="Roblox avatar">
+        src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=7928916733&size=420x420&format=Png&isCircular=false"
+        alt="Roblox avatar">
 
       <div class="roblox-details">
         <div class="roblox-heading">
@@ -498,7 +494,7 @@ h1 {
 
     <div class="spotify-card" id="activity-card">
       <img id="activity-image" class="spotify-cover"
-           src="./nothing.jpg" alt="Activity artwork">
+        src="./nothing.jpg" alt="Activity artwork">
 
       <div class="spotify-content">
         <div id="activity-title" class="spotify-title">doing nothing atm</div>
@@ -555,8 +551,37 @@ h1 {
   </a>
 </main>
 
-<div class="views counterapi" startNumber="784" label="views" noIcon="true" noCss="true" noLink="true">784 views</div>
-<script async src="https://counterapi.com/c.js?ns=mylo-profile"></script>
+<div class="views" id="view-count" aria-live="polite">Loading views...</div>
+
+<script>
+(() => {
+  // Replace this with your deployed Cloudflare Worker URL.
+  const COUNTER_ENDPOINT =
+    "https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev/api/views";
+
+  const STARTING_COUNT = 784;
+  const display = document.getElementById("view-count");
+
+  fetch(COUNTER_ENDPOINT, { method: "GET", cache: "no-store" })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Counter request failed (${response.status})`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      const count = Number(data.count);
+      if (!Number.isFinite(count)) {
+        throw new Error("Invalid counter response");
+      }
+      display.textContent = `${STARTING_COUNT + count} views`;
+    })
+    .catch(error => {
+      console.error("Views counter failed:", error);
+      display.textContent = "Views unavailable";
+    });
+})();
+</script>
 
 <script>
 const DISCORD_ID = "664872662501425165";
@@ -591,7 +616,9 @@ async function loadRobloxAvatar() {
     if (!response.ok) throw new Error(`Roblox thumbnail HTTP ${response.status}`);
 
     const json = await response.json();
-    const entry = json.data?.find(item => item.targetId === Number(ROBLOX_ID)) || json.data?.[0];
+    const entry = json.data?.find(
+      item => item.targetId === Number(ROBLOX_ID)
+    ) || json.data?.[0];
 
     if (entry?.imageUrl && entry.state === "Completed") {
       avatar.src = entry.imageUrl;
@@ -713,7 +740,6 @@ async function loadDiscord() {
     const data = result.data;
     const user = data.discord_user;
 
-    // Always use your Discord avatar for the main profile image.
     if (user.avatar) {
       const extension = user.avatar.startsWith("a_") ? "gif" : "png";
       $("profile-avatar").src =
@@ -742,14 +768,13 @@ async function loadDiscord() {
   }
 }
 
-// Hover tilt: 30% stronger than the previous 2.4-degree setting.
 document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => {
   card.addEventListener("mousemove", event => {
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
-    const rotateY = (x - .5) * 6.5;
-    const rotateX = (.5 - y) * 6.5;
+    const rotateY = (x - .5) * 6.2;
+    const rotateX = (.5 - y) * 6.2;
 
     card.style.transform =
       `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
