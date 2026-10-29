@@ -10,10 +10,9 @@
 <style>
 :root {
   --bg: #080809;
-  --card: rgba(18,18,21,.72);
-  --border: rgba(150,155,190,.22);
   --text: #f5f5fa;
   --muted: #9699b4;
+  --border: rgba(255,255,255,.10);
 }
 
 * { box-sizing: border-box; }
@@ -50,7 +49,7 @@ body::before {
   pointer-events: none;
 }
 
-/* Website scaled to 60% of its previous size */
+/* Overall site size */
 main {
   zoom: .6;
   width: min(100% - 40px, 772px);
@@ -109,23 +108,27 @@ h1 {
 
 .dot-separator { margin: 0 9px; }
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
+.card,
+.roblox-card,
+.spotify-card {
+  background: rgba(28,28,30,.48);
+  border: 1px solid rgba(255,255,255,.10);
   border-radius: 23px;
   padding: 28px;
   margin-bottom: 20px;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  transition: border-color .2s, transform .2s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color .2s, background .2s, transform .2s;
 }
 
-a.card:hover {
-  border-color: rgba(160,165,220,.48);
-  transform: translateY(-2px);
+a.card:hover,
+.roblox-card:hover {
+  background: rgba(45,45,50,.52);
+  border-color: rgba(255,255,255,.18);
 }
 
 .bio {
+  background: rgba(28,28,30,.38);
   font-size: 26px;
   line-height: 1.55;
   margin-bottom: 40px;
@@ -154,7 +157,7 @@ a.card:hover {
   object-fit: cover;
   flex-shrink: 0;
   background: #141418;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255,255,255,.12);
 }
 
 .details { min-width: 0; flex: 1; }
@@ -189,9 +192,9 @@ a.card:hover {
 }
 
 .duration {
-  color: #8589a6;
+  color: #c5c5ce;
   font-size: 15px;
-  margin-top: 7px;
+  margin-top: 8px;
 }
 
 .invite {
@@ -212,6 +215,117 @@ a.card:hover {
   flex-shrink: 0;
 }
 
+/* Roblox profile card */
+.roblox-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 17px 20px;
+  color: var(--text);
+}
+
+.roblox-avatar {
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  object-fit: cover;
+  background: #151519;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.roblox-details { flex: 1; min-width: 0; }
+
+.roblox-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 23px;
+  font-weight: 750;
+}
+
+.roblox-tag {
+  color: #9699b4;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.roblox-username {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+/* Spotify player */
+.spotify-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  padding: 20px;
+  background: rgba(105,105,105,.35);
+}
+
+.spotify-cover {
+  width: 90px;
+  height: 90px;
+  border-radius: 17px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #222;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.spotify-content { min-width: 0; flex: 1; }
+
+.spotify-title {
+  font-size: 23px;
+  font-weight: 750;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spotify-artist {
+  color: #c1c1c8;
+  font-size: 17px;
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spotify-progress {
+  width: 100%;
+  height: 4px;
+  background: rgba(230,230,235,.25);
+  border-radius: 10px;
+  margin-top: 17px;
+  overflow: hidden;
+}
+
+#spotify-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: #f1f1f4;
+  border-radius: inherit;
+  transition: width .5s linear;
+}
+
+.spotify-times {
+  display: flex;
+  justify-content: space-between;
+  color: #c5c5ce;
+  font-size: 13px;
+  margin-top: 7px;
+}
+
 .discord-button {
   display: flex;
   width: fit-content;
@@ -221,7 +335,7 @@ a.card:hover {
   margin: 32px auto 0;
   padding: 18px 35px;
   border-radius: 50px;
-  background: linear-gradient(135deg, #5865f2, #4540ef);
+  background: linear-gradient(135deg,#5865f2,#4540ef);
   box-shadow: 0 8px 35px rgba(70,70,240,.2);
   font-size: 21px;
   font-weight: 700;
@@ -267,6 +381,18 @@ a.card:hover {
   .invite { font-size: 14px; gap: 6px; }
   .arrow { font-size: 26px; }
   .views { right: 10px; bottom: 10px; font-size: 11px; }
+
+  .roblox-card { gap: 13px; padding: 13px; }
+  .roblox-avatar { width: 58px; height: 58px; border-radius: 14px; }
+  .roblox-heading { font-size: 18px; }
+  .roblox-tag { font-size: 12px; }
+  .roblox-username { font-size: 13px; }
+
+  .spotify-card { gap: 14px; padding: 14px; }
+  .spotify-cover { width: 65px; height: 65px; border-radius: 13px; }
+  .spotify-title { font-size: 17px; }
+  .spotify-artist { font-size: 13px; }
+  .spotify-progress { margin-top: 12px; }
 }
 </style>
 </head>
@@ -300,36 +426,51 @@ a.card:hover {
 
   <section>
     <h2 class="section-title">roblox</h2>
-    <a class="card row"
+    <a class="roblox-card"
        href="https://www.roblox.com/users/7928916733/profile"
        target="_blank" rel="noopener">
-      <img id="roblox-avatar" class="tile-image"
+      <img id="roblox-avatar" class="roblox-avatar"
            src="https://www.roblox.com/favicon.ico"
-           alt="Roblox avatar">
-      <div class="details">
-        <div class="card-heading">
-          Roblox profile <span class="tag">roblox</span>
+           alt="My Roblox avatar">
+
+      <div class="roblox-details">
+        <div class="roblox-heading">
+          <span>mylo</span>
+          <span class="roblox-tag">roblox</span>
         </div>
-        <div class="description">@7928916733 · view my profile</div>
+        <div class="roblox-username">@mylo · @7928916733</div>
       </div>
+
       <span class="arrow">↗</span>
     </a>
   </section>
 
   <section>
     <h2 class="section-title">right now</h2>
-    <div class="card row">
-      <img id="activity-image" class="tile-image"
+
+    <div class="spotify-card">
+      <img id="activity-image" class="spotify-cover"
            src="https://cdn.discordapp.com/embed/avatars/0.png"
-           alt="Current activity">
-      <div class="details">
-        <div id="activity-title" class="card-heading">discord</div>
-        <div id="activity-description" class="description">
-          nothing specific right now
+           alt="Album cover">
+
+      <div class="spotify-content">
+        <div id="activity-title" class="spotify-title">
+          Nothing playing
         </div>
-        <div id="activity-duration" class="duration">
-          Not currently active
+        <div id="activity-description" class="spotify-artist">
+          Not listening to Spotify
         </div>
+
+        <div class="spotify-progress">
+          <div id="spotify-progress-fill"></div>
+        </div>
+
+        <div class="spotify-times">
+          <span id="spotify-elapsed">0:00</span>
+          <span id="spotify-total">0:00</span>
+        </div>
+
+        <div id="activity-duration" class="duration"></div>
       </div>
     </div>
   </section>
@@ -340,26 +481,30 @@ a.card:hover {
     <a class="card row" href="https://discord.gg/dhedits"
        target="_blank" rel="noopener">
       <img class="tile-image" src="./dhedits.gif" alt="dhedits">
+
       <div class="details">
         <div class="card-heading">
-          dhedits <span class="tag">community</span>
+          dhedits <span class="tag">tutorials</span>
         </div>
         <div class="description">editing and vault server</div>
         <div class="invite">↗ discord.gg/dhedits</div>
       </div>
+
       <span class="arrow">↗</span>
     </a>
 
     <a class="card row" href="https://discord.gg/curb"
        target="_blank" rel="noopener">
       <img class="tile-image" src="./curb.jpg" alt="curb">
+
       <div class="details">
         <div class="card-heading">
-          curb <span class="tag">community</span>
+          curb <span class="tag">friendgroup</span>
         </div>
         <div class="description">my private friendgroup :D</div>
         <div class="invite">↗ discord.gg/curb</div>
       </div>
+
       <span class="arrow">↗</span>
     </a>
   </section>
@@ -376,69 +521,23 @@ a.card:hover {
 <script>
 const DISCORD_ID = "664872662501425165";
 const ROBLOX_ID = "7928916733";
-
 const $ = id => document.getElementById(id);
 
 let activityKey = "";
 let activityStart = null;
 let activityKind = "";
+let spotifyEnd = null;
+let spotifyStart = null;
+let lastActivityData = null;
 
-function formatDuration(ms) {
-  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-
-  if (hours > 0) return `${hours}h ${minutes}m elapsed`;
-  if (minutes > 0) return `${minutes}m ${seconds}s elapsed`;
-  return `${seconds}s elapsed`;
-}
-
-function updateDuration(data) {
-  const spotify = data.listening_to_spotify ? data.spotify : null;
-  const activity = (data.activities || []).find(a => a.type !== 4);
-
-  let key = "";
-  let start = null;
-  let kind = "";
-
-  if (spotify) {
-    key = `spotify:${spotify.track_id || spotify.song}`;
-    start = spotify.timestamps?.start || null;
-    kind = "song";
-  } else if (activity) {
-    key = `game:${activity.application_id || activity.name}`;
-    start = activity.timestamps?.start || null;
-    kind = "game";
-  }
-
-  if (key !== activityKey) {
-    activityKey = key;
-    activityStart = start || (key ? Date.now() : null);
-    activityKind = kind;
-  } else if (start) {
-    activityStart = start;
-  }
-
-  if (!key) {
-    $("activity-duration").textContent = "Not currently active";
-    return;
-  }
-
-  if (!activityStart) {
-    $("activity-duration").textContent = "Duration unavailable";
-    return;
-  }
-
-  const label = activityKind === "song" ? "listening" : "playing";
-  $("activity-duration").textContent =
-    `${formatDuration(Date.now() - activityStart)} · ${label}`;
+function formatTime(ms) {
+  const seconds = Math.max(0, Math.floor(ms / 1000));
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
 function setBackdrop(url) {
   if (!url) return;
   $("backdrop").style.backgroundImage = `url("${url}")`;
-  $("backdrop").style.opacity = ".4";
 }
 
 async function loadRoblox() {
@@ -446,6 +545,9 @@ async function loadRoblox() {
     const response = await fetch(
       `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=150x150&format=Png&isCircular=false`
     );
+
+    if (!response.ok) throw new Error("Roblox API request failed");
+
     const data = await response.json();
     const avatarUrl = data.data?.[0]?.imageUrl;
 
@@ -455,7 +557,109 @@ async function loadRoblox() {
       $("profile-avatar").dataset.robloxLoaded = "true";
     }
   } catch (error) {
-    console.log("Roblox avatar unavailable");
+    console.error("Could not load Roblox avatar:", error);
+  }
+}
+
+function updateSpotifyCard(data) {
+  const spotify = data.listening_to_spotify ? data.spotify : null;
+  const game = (data.activities || []).find(a => a.type !== 4);
+
+  if (spotify) {
+    const key = `spotify:${spotify.track_id || spotify.song}`;
+
+    if (key !== activityKey) {
+      activityKey = key;
+      spotifyStart = spotify.timestamps?.start || Date.now();
+      spotifyEnd = spotify.timestamps?.end || null;
+      activityKind = "song";
+    } else {
+      spotifyStart = spotify.timestamps?.start || spotifyStart;
+      spotifyEnd = spotify.timestamps?.end || spotifyEnd;
+    }
+
+    $("activity-title").textContent = spotify.song;
+    $("activity-description").textContent = spotify.artist;
+    $("activity-image").src = spotify.album_art_url;
+    setBackdrop(spotify.album_art_url);
+
+    $("spotify-progress").style.display = "block";
+    $("spotify-elapsed").style.display = "inline";
+    $("spotify-total").style.display = "inline";
+
+    updateProgress();
+    return;
+  }
+
+  if (game) {
+    const key = `game:${game.application_id || game.name}`;
+
+    if (key !== activityKey) {
+      activityKey = key;
+      activityStart = game.timestamps?.start || Date.now();
+      activityKind = "game";
+    } else if (game.timestamps?.start) {
+      activityStart = game.timestamps.start;
+    }
+
+    $("activity-title").textContent = game.name;
+    $("activity-description").textContent =
+      game.details || game.state || "Currently playing";
+
+    const image = game.assets?.large_image;
+    let imageUrl = "";
+
+    if (image?.startsWith("mp:external/")) {
+      imageUrl = "https://media.discordapp.net/" + image.slice(3);
+    } else if (image && game.application_id) {
+      imageUrl =
+        `https://cdn.discordapp.com/app-assets/${game.application_id}/${image}.png`;
+    }
+
+    if (imageUrl) {
+      $("activity-image").src = imageUrl;
+      setBackdrop(imageUrl);
+    }
+
+    $("spotify-progress").style.display = "none";
+    $("spotify-elapsed").style.display = "none";
+    $("spotify-total").style.display = "none";
+    $("activity-duration").textContent = "0:00 elapsed · playing";
+    updateProgress();
+    return;
+  }
+
+  activityKey = "";
+  activityStart = null;
+  spotifyStart = null;
+  spotifyEnd = null;
+
+  $("activity-title").textContent = "Nothing playing";
+  $("activity-description").textContent = "Not listening to Spotify";
+  $("activity-duration").textContent = "";
+  $("activity-image").src =
+    "https://cdn.discordapp.com/embed/avatars/0.png";
+  $("spotify-progress-fill").style.width = "0%";
+  $("spotify-elapsed").textContent = "0:00";
+  $("spotify-total").textContent = "0:00";
+  $("spotify-progress").style.display = "block";
+  $("spotify-elapsed").style.display = "inline";
+  $("spotify-total").style.display = "inline";
+}
+
+function updateProgress() {
+  if (activityKind === "song" && spotifyStart && spotifyEnd) {
+    const total = spotifyEnd - spotifyStart;
+    const elapsed = Math.max(0, Math.min(Date.now() - spotifyStart, total));
+    const percent = total > 0 ? elapsed / total * 100 : 0;
+
+    $("spotify-progress-fill").style.width = `${percent}%`;
+    $("spotify-elapsed").textContent = formatTime(elapsed);
+    $("spotify-total").textContent = formatTime(total);
+    $("activity-duration").textContent = `${formatTime(elapsed)} elapsed`;
+  } else if (activityKind === "game" && activityStart) {
+    $("activity-duration").textContent =
+      `${formatTime(Date.now() - activityStart)} elapsed · playing`;
   }
 }
 
@@ -464,12 +668,14 @@ async function loadDiscord() {
     const response = await fetch(
       `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
     );
+
     const result = await response.json();
     if (!result.success) return;
 
     const data = result.data;
-    const user = data.discord_user;
+    lastActivityData = data;
 
+    const user = data.discord_user;
     if (user.avatar && !$("profile-avatar").dataset.robloxLoaded) {
       $("profile-avatar").src =
         `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${user.avatar}.png?size=256`;
@@ -479,71 +685,25 @@ async function loadDiscord() {
     $("status-text").textContent =
       status === "dnd" ? "do not disturb" : status;
 
-    const statusColors = {
+    const colors = {
       online: "#43b581",
       idle: "#faa61a",
       dnd: "#f04747",
       offline: "#747f8d"
     };
-    $("status-dot").style.background =
-      statusColors[status] || statusColors.offline;
 
-    const spotify = data.listening_to_spotify ? data.spotify : null;
-    const activities = data.activities || [];
-    const activity = activities.find(a => a.type !== 4);
+    $("status-dot").style.background = colors[status] || colors.offline;
 
-    if (spotify) {
-      $("activity-title").textContent = spotify.song;
-      $("activity-description").textContent = "by " + spotify.artist;
-      $("activity-image").src = spotify.album_art_url;
-      setBackdrop(spotify.album_art_url);
-    } else if (activity) {
-      $("activity-title").textContent = activity.name;
-      $("activity-description").textContent =
-        activity.details || activity.state || "currently playing";
-
-      let imageUrl = "";
-      const image = activity.assets?.large_image;
-
-      if (image?.startsWith("mp:external/")) {
-        imageUrl = "https://media.discordapp.net/" + image.slice(3);
-      } else if (image && activity.application_id) {
-        imageUrl =
-          `https://cdn.discordapp.com/app-assets/${activity.application_id}/${image}.png`;
-      }
-
-      if (imageUrl) {
-        $("activity-image").src = imageUrl;
-        setBackdrop(imageUrl);
-      }
-    } else {
-      $("activity-title").textContent = "discord";
-      $("activity-description").textContent =
-        "nothing specific right now";
-      $("activity-image").src =
-        "https://cdn.discordapp.com/embed/avatars/0.png";
-      $("activity-duration").textContent = "Not currently active";
-      activityKey = "";
-      activityStart = null;
-    }
-
-    updateDuration(data);
+    updateSpotifyCard(data);
   } catch (error) {
-    console.log("Discord activity unavailable");
+    console.error("Could not load Discord activity:", error);
   }
 }
-
-setInterval(() => {
-  if (activityKey && activityStart) {
-    const label = activityKind === "song" ? "listening" : "playing";
-    $("activity-duration").textContent =
-      `${formatDuration(Date.now() - activityStart)} · ${label}`;
-  }
-}, 1000);
 
 loadRoblox();
 loadDiscord();
 setInterval(loadDiscord, 15000);
+setInterval(updateProgress, 1000);
 </script>
 </body>
 </html>
