@@ -1,28 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080809">
+<meta name="theme-color" content="#000000">
 <title>mylo</title>
 
 <style>
 :root {
-  --text: #f3f3f7;
-  --muted: #a0a0ad;
-  --border: rgba(255,255,255,.105);
-  --glass: rgba(28,28,31,.43);
+  --text: #fff;
+  --muted: #aaa;
+  --border: #252525;
+  --card: #050505;
 }
 
-* { box-sizing: border-box; }
-html { color-scheme: dark; }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  background: #000;
+}
 
 body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
-  background: #080809;
+  background: #000;
   color: var(--text);
   font-family: Inter, "SF Pro Display", -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -32,15 +37,7 @@ body {
 }
 
 #backdrop {
-  position: fixed;
-  inset: -60px;
-  z-index: -2;
-  background-position: center;
-  background-size: cover;
-  filter: blur(55px) brightness(.32) saturate(.4);
-  opacity: .24;
-  transform: scale(1.1);
-  transition: background-image .4s ease;
+  display: none;
 }
 
 body::before {
@@ -48,18 +45,22 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: rgba(5,5,7,.24);
+  background: #000;
   pointer-events: none;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 main {
-  zoom: .792;
   width: min(100% - 40px, 772px);
   margin: 0 auto;
   padding: 75px 0 60px;
 }
 
-a { color: inherit; text-decoration: none; }
+/* PROFILE */
 
 .profile {
   display: flex;
@@ -68,7 +69,40 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 30px;
 }
 
-.avatar-wrap { position: relative; flex-shrink: 0; }
+.avatar-wrap {
+  position: relative;
+  isolation: isolate;
+  flex-shrink: 0;
+  z-index: 0;
+}
+
+/* Rotating white ring */
+.avatar-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #fff 70deg,
+    #777 120deg,
+    transparent 180deg,
+    #fff 250deg,
+    transparent 360deg
+  );
+  animation: avatarSpin 3s linear infinite;
+  z-index: -1;
+}
+
+.avatar-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: #000;
+  z-index: -1;
+}
 
 .avatar {
   width: 130px;
@@ -76,8 +110,11 @@ a { color: inherit; text-decoration: none; }
   display: block;
   border-radius: 50%;
   object-fit: cover;
-  background: #19191d;
-  border: 1px solid var(--border);
+  background: #111;
+  border: 2px solid #000;
+  animation:
+    avatarFloat 4s ease-in-out infinite,
+    avatarGlow 2.5s ease-in-out infinite alternate;
 }
 
 .status-dot {
@@ -86,12 +123,15 @@ a { color: inherit; text-decoration: none; }
   bottom: 5px;
   width: 24px;
   height: 24px;
-  border: 4px solid #0b0b0d;
+  border: 4px solid #000;
   border-radius: 50%;
   background: #747f8d;
 }
 
-.greeting { color: var(--muted); font-size: 24px; }
+.greeting {
+  color: var(--muted);
+  font-size: 24px;
+}
 
 h1 {
   margin: 0;
@@ -105,10 +145,13 @@ h1 {
   margin-top: 9px;
   color: var(--muted);
   font-size: 18px;
-  letter-spacing: -.025em;
 }
 
-.dot-separator { margin: 0 8px; }
+.dot-separator {
+  margin: 0 8px;
+}
+
+/* CARDS */
 
 .card,
 .roblox-card,
@@ -122,62 +165,35 @@ h1 {
   min-width: 0;
   margin-bottom: 17px;
   padding: 20px;
-  overflow: visible;
   border: 1px solid var(--border);
   border-radius: 23px;
-  background: var(--glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 18px rgba(0,0,0,.06);
-  transition: transform .22s ease, border-color .22s ease,
-    background .22s ease, box-shadow .22s ease;
-  transform: perspective(900px) rotateX(0deg) rotateY(0deg);
+  background: var(--card);
+  transition:
+    transform .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease;
   transform-style: preserve-3d;
   will-change: transform;
-}
-
-.card::before,
-.roblox-card::before,
-.spotify-card::before {
-  content: "";
-  position: absolute;
-  inset: 7px -3px -9px;
-  z-index: -1;
-  border-radius: inherit;
-  background: rgba(255,255,255,.17);
-  filter: blur(20px);
-  opacity: 0;
-  transition: opacity .22s ease;
-  pointer-events: none;
 }
 
 .card:hover,
 .roblox-card:hover,
 .spotify-card:hover {
-  background: rgba(65,65,70,.40);
-  border-color: rgba(255,255,255,.20);
-  box-shadow: 0 12px 35px rgba(0,0,0,.12);
-}
-
-.card:hover::before,
-.roblox-card:hover::before,
-.spotify-card:hover::before {
-  opacity: .8;
+  border-color: #777;
+  box-shadow: 0 12px 35px rgba(255,255,255,.05);
 }
 
 .bio {
   display: block;
   padding: 27px 30px;
   margin-bottom: 34px;
-  background: rgba(28,28,31,.38);
   font-size: 25px;
   line-height: 1.5;
-  font-weight: 450;
 }
 
 .section-title {
   margin: 0 0 11px 4px;
-  color: var(--muted);
+  color: #aaa;
   font-size: 17px;
   font-weight: 650;
   letter-spacing: .15em;
@@ -190,12 +206,15 @@ h1 {
   display: block;
   flex-shrink: 0;
   object-fit: cover;
-  border: 1px solid rgba(255,255,255,.10);
+  border: 1px solid #252525;
   border-radius: 17px;
-  background: #151519;
+  background: #111;
 }
 
-.details { flex: 1; min-width: 0; }
+.details {
+  flex: 1;
+  min-width: 0;
+}
 
 .card-heading {
   display: flex;
@@ -204,48 +223,50 @@ h1 {
   gap: 10px;
   font-size: 23px;
   font-weight: 720;
-  letter-spacing: -.045em;
 }
 
 .tag,
 .roblox-tag {
   padding: 4px 11px;
-  border: 1px solid rgba(255,255,255,.10);
+  border: 1px solid #252525;
   border-radius: 30px;
-  background: rgba(255,255,255,.035);
-  color: #a8a8b5;
+  background: #080808;
+  color: #ccc;
   font-size: 13px;
   font-weight: 500;
-  letter-spacing: .01em;
 }
 
 .description {
   margin-top: 7px;
-  color: var(--muted);
+  color: #aaa;
   font-size: 16px;
   line-height: 1.45;
   overflow-wrap: anywhere;
-  letter-spacing: -.015em;
 }
 
 .invite {
   display: inline-block;
   margin-top: 9px;
-  color: #c5c5d0;
+  color: #ccc;
   font-size: 15px;
-  transition: color .2s ease;
 }
 
-.card:hover .invite { color: #fff; }
+.card:hover .invite {
+  color: #fff;
+}
 
 .arrow {
   flex-shrink: 0;
   margin-left: auto;
-  color: #8f8f9c;
+  color: #aaa;
   font-size: 23px;
 }
 
-.roblox-card { padding: 17px 20px; }
+/* ROBLOX */
+
+.roblox-card {
+  padding: 17px 20px;
+}
 
 .roblox-avatar {
   width: 76px;
@@ -254,11 +275,14 @@ h1 {
   display: block;
   object-fit: cover;
   border-radius: 17px;
-  background: #17171b;
-  border: 1px solid rgba(255,255,255,.12);
+  background: #111;
+  border: 1px solid #252525;
 }
 
-.roblox-details { flex: 1; min-width: 0; }
+.roblox-details {
+  flex: 1;
+  min-width: 0;
+}
 
 .roblox-heading {
   display: flex;
@@ -267,19 +291,19 @@ h1 {
   gap: 12px;
   font-size: 23px;
   font-weight: 730;
-  letter-spacing: -.045em;
 }
 
 .roblox-username {
   margin-top: 7px;
-  color: var(--muted);
+  color: #aaa;
   font-size: 15px;
   overflow-wrap: anywhere;
 }
 
+/* DISCORD ACTIVITY / SPOTIFY */
+
 .spotify-card {
   padding: 17px;
-  background: rgba(100,100,105,.30);
 }
 
 .spotify-cover {
@@ -289,15 +313,17 @@ h1 {
   display: block;
   object-fit: cover;
   border-radius: 15px;
-  background: #19191d;
+  background: #111;
 }
 
-.spotify-content { flex: 1; min-width: 0; }
+.spotify-content {
+  flex: 1;
+  min-width: 0;
+}
 
 .spotify-title {
   font-size: 22px;
   font-weight: 730;
-  letter-spacing: -.04em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -305,7 +331,7 @@ h1 {
 
 .spotify-artist {
   margin-top: 4px;
-  color: #b3b3bf;
+  color: #bbb;
   font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
@@ -316,7 +342,7 @@ h1 {
   height: 4px;
   margin-top: 15px;
   border-radius: 10px;
-  background: rgba(255,255,255,.20);
+  background: #333;
   overflow: hidden;
 }
 
@@ -324,7 +350,7 @@ h1 {
   width: 0%;
   height: 100%;
   border-radius: inherit;
-  background: #f1f1f4;
+  background: #fff;
   transition: width .5s linear;
 }
 
@@ -333,16 +359,18 @@ h1 {
   justify-content: space-between;
   gap: 10px;
   margin-top: 6px;
-  color: #bdbdc8;
+  color: #bbb;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 
 .duration {
   margin-top: 6px;
-  color: #a8a8b5;
+  color: #aaa;
   font-size: 13px;
 }
+
+/* DISCORD BUTTON */
 
 .discord-button {
   display: flex;
@@ -352,9 +380,10 @@ h1 {
   gap: 12px;
   margin: 28px auto 0;
   padding: 15px 30px;
-  border: 1px solid rgba(255,255,255,.10);
+  border: 1px solid #fff;
   border-radius: 40px;
-  background: rgba(88,101,242,.80);
+  background: #fff;
+  color: #000;
   font-size: 18px;
   font-weight: 700;
   transition: transform .2s ease, background .2s ease;
@@ -362,21 +391,131 @@ h1 {
 
 .discord-button:hover {
   transform: translateY(-3px);
-  background: rgba(105,116,255,.95);
+  background: #ddd;
 }
+
+/* VIEWS COUNTER */
 
 .views {
   position: fixed;
   right: 20px;
   bottom: 20px;
   padding: 9px 15px;
-  border: 1px solid var(--border);
+  border: 1px solid #252525;
   border-radius: 30px;
-  background: rgba(12,12,15,.55);
-  color: #898997;
+  background: #050505;
+  color: #ccc;
   font-size: 12px;
-  backdrop-filter: blur(12px);
+  z-index: 5;
 }
+
+/* PAGE LOAD ANIMATIONS */
+
+@keyframes myloReveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes myloFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes myloImageReveal {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* PROFILE PICTURE ANIMATIONS */
+
+@keyframes avatarSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes avatarGlow {
+  from {
+    box-shadow: 0 0 7px rgba(255,255,255,.2);
+  }
+  to {
+    box-shadow: 0 0 23px rgba(255,255,255,.7);
+  }
+}
+
+@keyframes avatarFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body:not(.page-ready) main > *,
+  body:not(.page-ready) .views {
+    opacity: 0;
+  }
+
+  body.page-ready main > * {
+    animation: myloReveal .75s cubic-bezier(.16,1,.3,1) both;
+    animation-delay: var(--intro-delay, 0ms);
+  }
+
+  body.page-ready main > header {
+    --intro-delay: 0ms;
+  }
+
+  body.page-ready main > section:nth-of-type(1) {
+    --intro-delay: 150ms;
+  }
+
+  body.page-ready main > section:nth-of-type(2) {
+    --intro-delay: 280ms;
+  }
+
+  body.page-ready main > section:nth-of-type(3) {
+    --intro-delay: 410ms;
+  }
+
+  body.page-ready main > section:nth-of-type(4) {
+    --intro-delay: 540ms;
+  }
+
+  body.page-ready main > .discord-button {
+    --intro-delay: 700ms;
+  }
+
+  body.page-ready main > section:nth-of-type(4) > a.card:nth-of-type(1) {
+    animation-delay: 650ms;
+  }
+
+  body.page-ready main > section:nth-of-type(4) > a.card:nth-of-type(2) {
+    animation-delay: 780ms;
+  }
+
+  body.page-ready .views {
+    animation: myloFade .7s ease both;
+    animation-delay: 850ms;
+  }
+}
+
+.tile-image,
+.roblox-avatar,
+.spotify-cover {
+  animation: myloImageReveal .8s ease both;
+}
+
+/* MOBILE */
 
 @media (max-width: 600px) {
   main {
@@ -384,11 +523,26 @@ h1 {
     padding-top: 45px;
   }
 
-  .profile { gap: 17px; }
-  .avatar { width: 90px; height: 90px; }
-  .greeting { font-size: 19px; }
-  h1 { font-size: 45px; }
-  .username { font-size: 13px; }
+  .profile {
+    gap: 17px;
+  }
+
+  .avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+  .greeting {
+    font-size: 19px;
+  }
+
+  h1 {
+    font-size: 45px;
+  }
+
+  .username {
+    font-size: 13px;
+  }
 
   .card,
   .roblox-card,
@@ -398,7 +552,10 @@ h1 {
     border-radius: 17px;
   }
 
-  .bio { padding: 18px; font-size: 20px; }
+  .bio {
+    padding: 18px;
+    font-size: 20px;
+  }
 
   .tile-image,
   .spotify-cover {
@@ -415,7 +572,9 @@ h1 {
 
   .card-heading,
   .roblox-heading,
-  .spotify-title { font-size: 17px; }
+  .spotify-title {
+    font-size: 17px;
+  }
 
   .tag,
   .roblox-tag {
@@ -425,16 +584,33 @@ h1 {
 
   .description,
   .roblox-username,
-  .spotify-artist { font-size: 12px; }
+  .spotify-artist {
+    font-size: 12px;
+  }
 
-  .invite { font-size: 12px; }
-  .section-title { font-size: 14px; }
-  .views { right: 8px; bottom: 8px; }
+  .invite {
+    font-size: 12px;
+  }
+
+  .section-title {
+    font-size: 14px;
+  }
+
+  .views {
+    right: 8px;
+    bottom: 8px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
+    animation: none !important;
     transition-duration: .01ms !important;
+  }
+
+  body:not(.page-ready) main > *,
+  body:not(.page-ready) .views {
+    opacity: 1;
   }
 }
 </style>
@@ -449,12 +625,14 @@ h1 {
       <img id="profile-avatar" class="avatar"
         src="https://cdn.discordapp.com/embed/avatars/0.png"
         alt="mylo Discord profile picture">
+
       <span id="status-dot" class="status-dot"></span>
     </div>
 
     <div>
       <div class="greeting">hey, i'm</div>
       <h1>mylo</h1>
+
       <div class="username">
         @traphouse2018
         <span class="dot-separator">·</span>
@@ -473,6 +651,7 @@ h1 {
     <a class="roblox-card"
        href="https://www.roblox.com/users/7928916733/profile"
        target="_blank" rel="noopener">
+
       <img id="roblox-avatar" class="roblox-avatar"
         src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=7928916733&size=420x420&format=Png&isCircular=false"
         alt="Roblox avatar">
@@ -482,6 +661,7 @@ h1 {
           <span id="roblox-name">mylo</span>
           <span class="roblox-tag">roblox</span>
         </div>
+
         <div class="roblox-username">@mylo · @7928916733</div>
       </div>
 
@@ -497,14 +677,21 @@ h1 {
         src="./nothing.jpg" alt="Activity artwork">
 
       <div class="spotify-content">
-        <div id="activity-title" class="spotify-title">doing nothing atm</div>
-        <div id="activity-description" class="spotify-artist">chilling</div>
+        <div id="activity-title" class="spotify-title">
+          doing nothing atm
+        </div>
 
-        <div id="spotify-progress" class="spotify-progress">
+        <div id="activity-description" class="spotify-artist">
+          chilling
+        </div>
+
+        <div id="spotify-progress" class="spotify-progress"
+             style="display:none">
           <div id="spotify-progress-fill"></div>
         </div>
 
-        <div id="spotify-times" class="spotify-times">
+        <div id="spotify-times" class="spotify-times"
+             style="display:none">
           <span id="spotify-elapsed">0:00</span>
           <span id="spotify-total">0:00</span>
         </div>
@@ -519,27 +706,35 @@ h1 {
 
     <a class="card" href="https://discord.gg/dhedits"
        target="_blank" rel="noopener">
+
       <img class="tile-image" src="./dhedits.gif" alt="dhedits">
+
       <div class="details">
         <div class="card-heading">
           dhedits <span class="tag">tutorials</span>
         </div>
+
         <div class="description">editing and vault server</div>
         <div class="invite">↗ discord.gg/dhedits</div>
       </div>
+
       <span class="arrow">↗</span>
     </a>
 
     <a class="card" href="https://discord.gg/curb"
        target="_blank" rel="noopener">
+
       <img class="tile-image" src="./curb.jpg" alt="curb">
+
       <div class="details">
         <div class="card-heading">
           curb <span class="tag">friendgroup</span>
         </div>
+
         <div class="description">my private friendgroup :D</div>
         <div class="invite">↗ discord.gg/curb</div>
       </div>
+
       <span class="arrow">↗</span>
     </a>
   </section>
@@ -551,30 +746,37 @@ h1 {
   </a>
 </main>
 
-<div class="views" id="view-count" aria-live="polite">Loading views...</div>
+<div class="views" id="view-count" aria-live="polite">
+  Loading views...
+</div>
 
 <script>
+/* VIEWS COUNTER */
 (() => {
-  // Replace this with your deployed Cloudflare Worker URL.
   const COUNTER_ENDPOINT =
     "https://mylo-views-counter.roxxhn.workers.dev";
 
   const STARTING_COUNT = 784;
   const display = document.getElementById("view-count");
 
-  fetch(COUNTER_ENDPOINT, { method: "GET", cache: "no-store" })
+  fetch(COUNTER_ENDPOINT, {
+    method: "GET",
+    cache: "no-store"
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error(`Counter request failed (${response.status})`);
       }
+
       return response.json();
     })
     .then(data => {
-      const count = Number(data.count);
-      if (!Number.isFinite(count)) {
+      if (!Number.isFinite(Number(data.count))) {
         throw new Error("Invalid counter response");
       }
-      display.textContent = `${STARTING_COUNT + count} views`;
+
+      display.textContent =
+        `${STARTING_COUNT + Number(data.count)} views`;
     })
     .catch(error => {
       console.error("Views counter failed:", error);
@@ -584,6 +786,8 @@ h1 {
 </script>
 
 <script>
+/* DISCORD, ROBLOX, SPOTIFY AND GAME ACTIVITY */
+
 const DISCORD_ID = "664872662501425165";
 const ROBLOX_ID = "7928916733";
 const $ = id => document.getElementById(id);
@@ -597,28 +801,39 @@ let lastArtwork = "";
 
 function formatTime(ms) {
   const seconds = Math.max(0, Math.floor(ms / 1000));
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+
+  return `${Math.floor(seconds / 60)}:${String(
+    seconds % 60
+  ).padStart(2, "0")}`;
 }
 
 function setBackdrop(url) {
   if (!url || url === lastArtwork) return;
+
   lastArtwork = url;
   $("backdrop").style.backgroundImage = `url("${url}")`;
 }
 
 async function loadRobloxAvatar() {
   const avatar = $("roblox-avatar");
+
   const endpoint =
     `https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=420x420&format=Png&isCircular=false&thumbnailType=HeadShot`;
 
   try {
-    const response = await fetch(endpoint, { cache: "no-store" });
-    if (!response.ok) throw new Error(`Roblox thumbnail HTTP ${response.status}`);
+    const response = await fetch(endpoint, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`Roblox thumbnail HTTP ${response.status}`);
+    }
 
     const json = await response.json();
-    const entry = json.data?.find(
-      item => item.targetId === Number(ROBLOX_ID)
-    ) || json.data?.[0];
+
+    const entry =
+      json.data?.find(item => item.targetId === Number(ROBLOX_ID))
+      || json.data?.[0];
 
     if (entry?.imageUrl && entry.state === "Completed") {
       avatar.src = entry.imageUrl;
@@ -627,7 +842,7 @@ async function loadRobloxAvatar() {
 
     throw new Error("Roblox avatar thumbnail isn't ready");
   } catch (error) {
-    console.error("Couldn't load Roblox avatar thumbnail:", error);
+    console.error("Couldn't load Roblox avatar:", error);
     avatar.alt = "Roblox avatar unavailable";
   }
 }
@@ -635,18 +850,28 @@ async function loadRobloxAvatar() {
 function updateProgress() {
   if (currentKind === "spotify" && songStart && songEnd) {
     const total = songEnd - songStart;
-    const elapsed = Math.max(0, Math.min(Date.now() - songStart, total));
+
+    const elapsed = Math.max(
+      0,
+      Math.min(Date.now() - songStart, total)
+    );
+
     const percent = total > 0 ? elapsed / total * 100 : 0;
 
     $("spotify-progress").style.display = "block";
     $("spotify-times").style.display = "flex";
+
     $("spotify-progress-fill").style.width = `${percent}%`;
     $("spotify-elapsed").textContent = formatTime(elapsed);
     $("spotify-total").textContent = formatTime(total);
-    $("activity-duration").textContent = `${formatTime(elapsed)} elapsed`;
+
+    $("activity-duration").textContent =
+      `${formatTime(elapsed)} elapsed`;
+
   } else if (currentKind === "game" && gameStart) {
     $("spotify-progress").style.display = "none";
     $("spotify-times").style.display = "none";
+
     $("activity-duration").textContent =
       `${formatTime(Date.now() - gameStart)} elapsed · playing`;
   }
@@ -662,7 +887,9 @@ function showIdle() {
   $("activity-title").textContent = "doing nothing atm";
   $("activity-description").textContent = "chilling";
   $("activity-duration").textContent = "";
+
   $("activity-image").src = "./nothing.jpg";
+
   $("spotify-progress").style.display = "none";
   $("spotify-times").style.display = "none";
   $("spotify-progress-fill").style.width = "0%";
@@ -670,7 +897,10 @@ function showIdle() {
 
 function updateActivity(data) {
   const spotify = data.listening_to_spotify ? data.spotify : null;
-  const game = (data.activities || []).find(a => a.type !== 4);
+
+  const game = (data.activities || []).find(
+    activity => activity.type !== 4
+  );
 
   if (spotify) {
     const key = `spotify:${spotify.track_id || spotify.song}`;
@@ -678,6 +908,7 @@ function updateActivity(data) {
     if (key !== currentKey) {
       currentKey = key;
       currentKind = "spotify";
+
       songStart = spotify.timestamps?.start || Date.now();
       songEnd = spotify.timestamps?.end || null;
     } else {
@@ -685,9 +916,14 @@ function updateActivity(data) {
       songEnd = spotify.timestamps?.end || songEnd;
     }
 
-    $("activity-title").textContent = spotify.song || "Unknown song";
-    $("activity-description").textContent = spotify.artist || "Unknown artist";
-    $("activity-image").src = spotify.album_art_url || "./nothing.jpg";
+    $("activity-title").textContent =
+      spotify.song || "Unknown song";
+
+    $("activity-description").textContent =
+      spotify.artist || "Unknown artist";
+
+    $("activity-image").src =
+      spotify.album_art_url || "./nothing.jpg";
 
     setBackdrop(spotify.album_art_url);
     updateProgress();
@@ -700,12 +936,15 @@ function updateActivity(data) {
     if (key !== currentKey) {
       currentKey = key;
       currentKind = "game";
+
       gameStart = game.timestamps?.start || Date.now();
     } else if (game.timestamps?.start) {
       gameStart = game.timestamps.start;
     }
 
-    $("activity-title").textContent = game.name || "Playing a game";
+    $("activity-title").textContent =
+      game.name || "Playing a game";
+
     $("activity-description").textContent =
       game.details || game.state || "playing";
 
@@ -720,7 +959,11 @@ function updateActivity(data) {
     }
 
     $("activity-image").src = artwork || "./nothing.jpg";
-    if (artwork) setBackdrop(artwork);
+
+    if (artwork) {
+      setBackdrop(artwork);
+    }
+
     updateProgress();
     return;
   }
@@ -735,13 +978,19 @@ async function loadDiscord() {
     );
 
     const result = await response.json();
-    if (!result.success) throw new Error("Lanyard request failed");
+
+    if (!result.success) {
+      throw new Error("Lanyard request failed");
+    }
 
     const data = result.data;
     const user = data.discord_user;
 
     if (user.avatar) {
-      const extension = user.avatar.startsWith("a_") ? "gif" : "png";
+      const extension = user.avatar.startsWith("a_")
+        ? "gif"
+        : "png";
+
       $("profile-avatar").src =
         `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${user.avatar}.${extension}?size=256`;
     } else {
@@ -750,6 +999,7 @@ async function loadDiscord() {
     }
 
     const status = data.discord_status || "offline";
+
     $("status-text").textContent =
       status === "dnd" ? "do not disturb" : status;
 
@@ -760,21 +1010,29 @@ async function loadDiscord() {
       offline: "#747f8d"
     };
 
-    $("status-dot").style.background = colors[status] || colors.offline;
+    $("status-dot").style.background =
+      colors[status] || colors.offline;
+
     updateActivity(data);
+
   } catch (error) {
     console.error("Could not load Discord profile/activity:", error);
     showIdle();
   }
 }
 
-document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => {
+/* CARD HOVER TILT */
+document.querySelectorAll(
+  ".card, .roblox-card, .spotify-card"
+).forEach(card => {
   card.addEventListener("mousemove", event => {
     const rect = card.getBoundingClientRect();
+
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
-    const rotateY = (x - .5) * 6.2;
-    const rotateX = (.5 - y) * 6.2;
+
+    const rotateY = (x - .5) * 3.12;
+    const rotateX = (.5 - y) * 3.12;
 
     card.style.transform =
       `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
@@ -786,6 +1044,7 @@ document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => 
   });
 });
 
+/* IMAGE FALLBACKS */
 $("profile-avatar").addEventListener("error", () => {
   $("profile-avatar").src =
     "https://cdn.discordapp.com/embed/avatars/0.png";
@@ -797,10 +1056,30 @@ $("activity-image").addEventListener("error", () => {
   }
 });
 
+/* START EVERYTHING */
 loadRobloxAvatar();
 loadDiscord();
+
 setInterval(loadDiscord, 15000);
 setInterval(updateProgress, 1000);
 </script>
+
+<script>
+/* START PAGE-LOAD ANIMATIONS */
+(() => {
+  const ready = () => {
+    document.body.classList.add("page-ready");
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", ready, {
+      once: true
+    });
+  } else {
+    ready();
+  }
+})();
+</script>
+
 </body>
 </html>
