@@ -555,15 +555,8 @@ h1 {
   </a>
 </main>
 
-<!-- Visitor counter, starting at 784 -->
-<div class="views counterapi"
-     startNumber="784"
-     label="views"
-     noIcon="true"
-     noCss="true"
-     noLink="true"></div>
-
-<script src="https://counterapi.com/c.js?ns=mylo-profile" async></script>
+<div class="views counterapi" startNumber="784" label="views" noIcon="true" noCss="true" noLink="true">784 views</div>
+<script async src="https://counterapi.com/c.js?ns=mylo-profile"></script>
 
 <script>
 const DISCORD_ID = "664872662501425165";
@@ -589,26 +582,27 @@ function setBackdrop(url) {
 }
 
 async function loadRobloxAvatar() {
+  const avatar = $("roblox-avatar");
   const endpoint =
-    `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=420x420&format=Png&isCircular=false`;
+    `https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=420x420&format=Png&isCircular=false&thumbnailType=HeadShot`;
 
   try {
     const response = await fetch(endpoint, { cache: "no-store" });
-    if (!response.ok) throw new Error(`Roblox HTTP ${response.status}`);
+    if (!response.ok) throw new Error(`Roblox thumbnail HTTP ${response.status}`);
 
     const json = await response.json();
-    const entry = json.data?.[0];
+    const entry = json.data?.find(item => item.targetId === Number(ROBLOX_ID)) || json.data?.[0];
 
     if (entry?.imageUrl && entry.state === "Completed") {
-      $("roblox-avatar").src = entry.imageUrl;
+      avatar.src = entry.imageUrl;
       return;
     }
-  } catch (error) {
-    console.warn("Roblox thumbnail API failed; trying direct thumbnail URL.", error);
-  }
 
-  $("roblox-avatar").src =
-    `https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=420&height=420&format=png`;
+    throw new Error("Roblox avatar thumbnail isn't ready");
+  } catch (error) {
+    console.error("Couldn't load Roblox avatar thumbnail:", error);
+    avatar.alt = "Roblox avatar unavailable";
+  }
 }
 
 function updateProgress() {
@@ -748,14 +742,14 @@ async function loadDiscord() {
   }
 }
 
-// Hover tilt
+// Hover tilt: 30% stronger than the previous 2.4-degree setting.
 document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => {
   card.addEventListener("mousemove", event => {
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
-    const rotateY = (x - .5) * 6;
-    const rotateX = (.5 - y) * 6;
+    const rotateY = (x - .5) * 6.5;
+    const rotateX = (.5 - y) * 6.5;
 
     card.style.transform =
       `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
