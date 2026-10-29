@@ -102,7 +102,7 @@ a { color: inherit; text-decoration: none; }
 .greeting {
   color: var(--muted);
   font-size: 24px;
-  margin-top: 32px;
+  transform: translateY(14px);
 }
 
 h1 {
@@ -699,7 +699,7 @@ document.documentElement.classList.add("js");
 <script>
 (() => {
   const COUNTER_ENDPOINT = "https://mylo-views-counter.roxxhn.workers.dev";
-  const STARTING_COUNT = 435;
+  const STARTING_COUNT = 342;
   const display = document.getElementById("view-count");
 
   fetch(COUNTER_ENDPOINT, { method: "GET", cache: "no-store" })
