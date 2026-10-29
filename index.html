@@ -601,7 +601,7 @@ async function loadRobloxAvatar() {
   }
 
   $("roblox-avatar").src =
-    `https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=420&height=420&format=png`;
+    "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-1E14173E94117747368B9AD08789B743-Png/420/420/AvatarHeadshot/Png/noFilter";
 }
 
 function updateProgress() {
@@ -747,8 +747,8 @@ document.querySelectorAll(".card, .roblox-card, .spotify-card").forEach(card => 
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
-    const rotateY = (x - .5) * 3.12;
-    const rotateX = (.5 - y) * 3.12;
+    const rotateY = (x - .5) * 3.744;
+    const rotateX = (.5 - y) * 3.744;
 
     card.style.transform =
       `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
