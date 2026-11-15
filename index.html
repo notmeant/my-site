@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#000000">
 <title>mylo</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="./favicon.png">
+
 <style>
 :root {
   --text: #fff;
@@ -706,7 +710,6 @@ function showIdle() {
   $("spotify-progress").style.display = "none";
   $("spotify-times").style.display = "none";
   $("spotify-progress-fill").style.width = "0%";
-  // Clear old artwork when no activity is available.
   lastArtwork = "";
   $("backdrop").style.backgroundImage = "none";
 }
